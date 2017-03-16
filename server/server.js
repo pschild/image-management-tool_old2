@@ -8,21 +8,8 @@ exports = module.exports = init;
 
 function init(port) {
 
-    expressApp.get('/images', function (req, res) {
-        res.json({success: true});
-    });
-
-    expressApp.post('/image', function (req, res) {
-        res.json({success: true});
-    });
-
-    expressApp.put('/image/:id', function (req, res) {
-        res.json({success: true});
-    });
-
-    expressApp.delete('/images', function (req, res) {
-        res.json({success: true});
-    });
+    require('./routes/files')(expressApp);
+    require('./routes/images')(expressApp);
 
     expressApp.use(express.static(path.join(__dirname, '..', 'dist')));
     expressApp.use(bodyParser.json());

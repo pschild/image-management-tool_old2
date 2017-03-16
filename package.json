@@ -26,6 +26,8 @@
     "body-parser": "^1.17.1",
     "core-js": "^2.4.1",
     "express": "^4.15.2",
+    "fs-extra": "^2.1.1",
+    "fs-promise": "^2.0.0",
     "rxjs": "^5.1.0",
     "zone.js": "^0.7.6"
   },
