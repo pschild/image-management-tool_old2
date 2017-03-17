@@ -13,14 +13,18 @@ FileService.prototype.getFilesByPath = function (givenPath) {
             } else {
                 resolve(fileNames.map((fileName) => {
                     let fullPath = path.join(givenPath, fileName);
-                    let stats = this.getStatOfFile(fullPath);
-                    return {
-                        fileName: fileName,
-                        fullPath: fullPath,
-                        isFile: stats.isFile(),
-                        isDirectory: stats.isDirectory(),
-                        isImage: this.isImageFile(fileName)
-                    };
+                    try {
+                        let stats = this.getStatOfFile(fullPath);
+                        return {
+                            fileName: fileName,
+                            fullPath: fullPath,
+                            isFile: stats.isFile(),
+                            isDirectory: stats.isDirectory(),
+                            isImage: this.isImageFile(fileName)
+                        };
+                    } catch(err) {
+                        throw new Error(`Error reading stats of file/folder "${fullPath}": ${err.message}`);
+                    }
                 }));
             }
         });
