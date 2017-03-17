@@ -1,4 +1,4 @@
-exports = module.exports = function(expressApp) {
+exports = module.exports = function (expressApp) {
     expressApp.get('/images', function (req, res) {
         res.json({success: true});
     });

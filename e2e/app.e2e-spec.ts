@@ -1,14 +1,14 @@
-import { ElectronAngularTestPage } from './app.po';
+import {ElectronAngularTestPage} from './app.po';
 
 describe('electron-angular-test App', () => {
-  let page: ElectronAngularTestPage;
+    let page: ElectronAngularTestPage;
 
-  beforeEach(() => {
-    page = new ElectronAngularTestPage();
-  });
+    beforeEach(() => {
+        page = new ElectronAngularTestPage();
+    });
 
-  it('should display message saying app works', () => {
-    page.navigateTo();
-    expect(page.getParagraphText()).toEqual('app works!');
-  });
+    it('should display message saying app works', () => {
+        page.navigateTo();
+        expect(page.getParagraphText()).toEqual('app works!');
+    });
 });
