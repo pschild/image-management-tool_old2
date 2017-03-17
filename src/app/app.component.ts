@@ -10,9 +10,26 @@ import 'rxjs/add/operator/map';
 export class AppComponent {
     title = 'app works!';
     files = [];
+    currentPath = 'C:\\Users\\john';
 
     constructor(private http: Http) {
-        http.get('http://localhost:1234/files/C%3A%5CUsers%5Cjohn%5CPictures')
+        this.getContents();
+    }
+
+    handleFolderClicked(folderName) {
+        this.currentPath += '\\' + folderName;
+        this.getContents();
+    }
+
+    openPreviousDirectory() {
+        let lastIndex = this.currentPath.lastIndexOf('\\');
+        this.currentPath = this.currentPath.substring(0, lastIndex);
+        this.getContents();
+    }
+
+    getContents() {
+        var escapedPath = encodeURI(this.currentPath);
+        this.http.get(`http://localhost:1234/files/${escapedPath}`)
             .map(res => res.json())
             .subscribe(
                 (files) => {

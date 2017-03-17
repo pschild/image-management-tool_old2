@@ -2,4 +2,12 @@
     {{title}}
 </h1>
 
-<img *ngFor="let file of files" src="file://{{file.fullPath}}"/>
+<h2>{{currentPath}}</h2>
+
+<a href="#" (click)="openPreviousDirectory()">&laquo; zurück</a>
+
+<div *ngFor="let file of files">
+    <a *ngIf="file.isDirectory" href="#" (click)="handleFolderClicked(file.fileName)">{{file.fileName}}</a>
+    <span *ngIf="file.isFile">{{file.fileName}}</span>
+    <img *ngIf="file.isImage" src="file://{{file.fullPath}}"/>
+</div>
