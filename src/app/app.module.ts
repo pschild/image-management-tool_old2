@@ -5,13 +5,21 @@ import {HttpModule} from '@angular/http';
 
 import {AppComponent} from './app.component';
 import { ImageComponent } from './image/image.component';
+import { ExplorerComponent } from './explorer/explorer.component';
+import { AppRoutingModule } from "./app-routing.module";
+import { NavigationComponent } from './navigation/navigation.component';
+import { ImprintComponent } from './imprint/imprint.component';
 
 @NgModule({
     declarations: [
         AppComponent,
-        ImageComponent
+        ImageComponent,
+        ExplorerComponent,
+        NavigationComponent,
+        ImprintComponent
     ],
     imports: [
+        AppRoutingModule,
         BrowserModule,
         FormsModule,
         HttpModule

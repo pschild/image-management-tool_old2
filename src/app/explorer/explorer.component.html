@@ -1,0 +1,8 @@
+<h2>{{currentPath}}</h2>
+
+<a *ngIf="currentPath != rootPath" (click)="openPreviousDirectory()">&laquo; zurück</a>
+
+<div *ngFor="let file of files">
+  <a *ngIf="file.isDirectory" (click)="handleFolderClicked(file.fileName)">{{file.fileName}}</a>
+  <app-image *ngIf="file.isImage" [fullPath]="file.fullPath" [path]="file.path" [fileName]="file.fileName"></app-image>
+</div>
