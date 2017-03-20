@@ -17,6 +17,7 @@ FileService.prototype.getFilesByPath = function (givenPath) {
                         let stats = this.getStatOfFile(fullPath);
                         return {
                             fileName: fileName,
+                            path: givenPath,
                             fullPath: fullPath,
                             isFile: stats.isFile(),
                             isDirectory: stats.isDirectory(),

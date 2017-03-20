@@ -21,6 +21,16 @@ exports = module.exports = function (expressApp) {
             });
     });
 
+    expressApp.get('/image/:path/:name', function (req, res) {
+        imageService.findByPathAndName(req.params.path, req.params.name)
+            .then((image) => {
+                res.json({image: image});
+            })
+            .catch((error) => {
+                res.json({success: false, error: error});
+            });
+    });
+
     expressApp.post('/image', function (req, res) {
         imageService.create(req.body)
             .then((image) => {

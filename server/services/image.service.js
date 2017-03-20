@@ -18,7 +18,19 @@ ImageService.prototype.findAll = function () {
 
 ImageService.prototype.findById = function (id) {
     return new Promise((resolve, reject) => {
-        db.all("SELECT * FROM image WHERE id=?", +id, function (err, row) {
+        db.get("SELECT * FROM image WHERE id=?", +id, function (err, row) {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(row);
+            }
+        });
+    });
+};
+
+ImageService.prototype.findByPathAndName = function (path, name) {
+    return new Promise((resolve, reject) => {
+        db.get("SELECT * FROM image WHERE path=? AND name=?", [path, name], function (err, row) {
             if (err) {
                 reject(err);
             } else {

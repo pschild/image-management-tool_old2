@@ -11,6 +11,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "elec": "ng build --prod && electron .",
+    "elec-only": "electron .",
     "elec-win": "electron-packager ./ ElectronAngularTest --platform=win32 --arch=x64 --overwrite",
     "postinstall": "install-app-deps"
   },
