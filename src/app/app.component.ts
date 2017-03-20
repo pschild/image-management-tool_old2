@@ -10,6 +10,7 @@ import 'rxjs/add/operator/map';
 export class AppComponent {
     title = 'app works!';
     files = [];
+    rootPath = 'C:';
     currentPath = 'C:\\imt';
 
     constructor(private http: Http) {
