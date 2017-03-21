@@ -1,6 +1,6 @@
 {
-  "name": "electron-angular-test",
-  "version": "0.0.0",
+  "name": "image-management-tool",
+  "version": "0.0.1",
   "license": "MIT",
   "main": "main.js",
   "scripts": {
@@ -10,10 +10,10 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "elec": "ng build --prod && electron .",
-    "elec-only": "electron .",
-    "elec-win": "electron-packager ./ ElectronAngularTest --out ./build --platform=win32 --arch=x64 --overwrite",
-    "postinstall": "install-app-deps"
+    "postinstall": "install-app-deps",
+    "build-electron": "ng build --prod --base-href . && xcopy main.js dist\\main.js* && xcopy package.json dist\\package.json* && xcopy server dist\\server /E /S /I",
+    "electron": "npm run build-electron && electron dist",
+    "electron-win": "npm run build-electron && cd dist && npm install && cd .. && electron-packager ./dist ImageManagementTool --out ./build --platform=win32 --arch=x64 --overwrite"
   },
   "private": true,
   "dependencies": {

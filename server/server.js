@@ -12,7 +12,7 @@ function init(port) {
 
     dbService.create();
 
-    expressApp.use(express.static(path.join(__dirname, '..', 'dist')));
+    expressApp.use(express.static(path.join(__dirname, '..')));
     expressApp.use(bodyParser.json());
     expressApp.use(bodyParser.urlencoded({extended: true}));
 
