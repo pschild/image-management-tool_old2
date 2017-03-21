@@ -1,7 +1,8 @@
 const sqlite3 = require('sqlite3').verbose();
+const path = require('path');
 
 var DatabaseService = function () {
-    this._db = new sqlite3.Database('image-management-tool.db');
+    this._db = new sqlite3.Database(path.join(__dirname, '..', 'db', 'image-management-tool.db'));
 };
 
 DatabaseService.prototype.create = function () {
