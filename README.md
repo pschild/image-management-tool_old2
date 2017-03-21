@@ -20,6 +20,8 @@ see https://github.com/nodejs/node-gyp:
 
 `npm config set msvs_version 2015 [--global]`
 
+Add python (%USERPROFILE%\.windows-build-tools\python27[\Lib]) to PATH in Windows.
+
 see http://stackoverflow.com/a/41230765
 
 `"scripts": {
