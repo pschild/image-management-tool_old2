@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Input} from "@angular/core/src/metadata/directives";
 import {Http} from "@angular/http";
-import {ImageGetResponse} from "./image-responses";
+import {ImageGetResponse} from "../shared/responses";
 
 @Component({
     selector: 'app-image',

@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {Http} from "@angular/http";
 import 'rxjs/add/operator/map';
+import {Store} from "@ngrx/store";
+import {AppState} from "../shared/reducers";
+import {getFiles} from "./explorer.actions";
 
 @Component({
     selector: 'app-explorer',
@@ -13,33 +15,32 @@ export class ExplorerComponent implements OnInit {
     rootPath = 'C:';
     currentPath = 'C:\\imt';
 
-    constructor(private http: Http) {
+    constructor(private store: Store<AppState>) {
     }
 
     ngOnInit() {
-        this.getContents();
+        this.store.select(state => state.explorerState).subscribe(
+            (explorerState) => {
+                this.files = explorerState.fileList;
+            }
+        );
+
+        this.getFilesOfCurrentDirectory();
     }
 
     handleFolderClicked(folderName) {
         this.currentPath += '\\' + folderName;
-        this.getContents();
+        this.getFilesOfCurrentDirectory();
     }
 
     openPreviousDirectory() {
         let lastIndex = this.currentPath.lastIndexOf('\\');
         this.currentPath = this.currentPath.substring(0, lastIndex);
-        this.getContents();
+        this.getFilesOfCurrentDirectory();
     }
 
-    getContents() {
-        var escapedPath = encodeURI(this.currentPath);
-        this.http.get(`http://localhost:1234/files/${escapedPath}`)
-            .map(res => res.json())
-            .subscribe(
-                (files) => {
-                    this.files = files.files;
-                }
-            );
+    getFilesOfCurrentDirectory() {
+        this.store.dispatch(getFiles(encodeURI(this.currentPath)));
     }
 
 }
