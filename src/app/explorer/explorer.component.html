@@ -1,6 +1,6 @@
-<h2>{{currentPath}}</h2>
+<h2>{{currentPath || 'Mein Computer'}}</h2>
 
-<a *ngIf="currentPath != rootPath" (click)="openPreviousDirectory()">&laquo; zurück</a>
+<a *ngIf="currentPath" (click)="openPreviousDirectory()">&laquo; zurück</a>
 
 <div *ngFor="let file of files">
   <a *ngIf="file.isDirectory" (click)="handleFolderClicked(file.fileName)">{{file.fileName}}</a>

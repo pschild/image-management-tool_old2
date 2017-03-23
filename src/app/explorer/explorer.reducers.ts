@@ -32,7 +32,7 @@ export const ExplorerReducer: ActionReducer<ExplorerState> = (state = initialExp
 
         case ExplorerActions.CHANGE_DIRECTORY:
             newState = Object.assign({}, state);
-            newState.currentDirectory = action.payload || initialExplorerState.currentDirectory;
+            newState.currentDirectory = action.payload;
             return newState;
 
         default:

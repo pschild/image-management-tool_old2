@@ -12,7 +12,6 @@ import {getFiles, changeDirectory} from "./explorer.actions";
 export class ExplorerComponent implements OnInit {
 
     files = [];
-    rootPath = 'C:';
     currentPath;
 
     constructor(private store: Store<AppState>) {
@@ -31,7 +30,10 @@ export class ExplorerComponent implements OnInit {
     }
 
     handleFolderClicked(folderName) {
-        this.currentPath += '\\' + folderName;
+        if (this.currentPath && this.currentPath.length > 0) {
+            this.currentPath += '\\';
+        }
+        this.currentPath += folderName;
         this.store.dispatch(changeDirectory(this.currentPath));
         this.getFilesOfCurrentDirectory();
     }

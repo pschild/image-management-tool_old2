@@ -1,5 +1,6 @@
 const path = require('path');
 const fsp = require('fs-promise');
+const drivelist = require('drivelist');
 
 var FileService = function () {
 };
@@ -7,6 +8,31 @@ var FileService = function () {
 FileService.prototype.getFilesByPath = function (givenPath) {
     if (givenPath === process.env.SystemDrive) {
         givenPath += '/';
+    }
+
+    if (!givenPath || givenPath === '') {
+        return new Promise((resolve, reject) => {
+            resolve(
+                [
+                    {
+                        fileName: 'C:',
+                        path: 'C:/',
+                        fullPath: 'C:/',
+                        isFile: false,
+                        isDirectory: true,
+                        isImage: false
+                    },
+                    {
+                        fileName: 'D:',
+                        path: 'D:/',
+                        fullPath: 'D:/',
+                        isFile: false,
+                        isDirectory: true,
+                        isImage: false
+                    }
+                ]
+            );
+        });
     }
 
     return new Promise((resolve, reject) => {
@@ -35,6 +61,34 @@ FileService.prototype.getFilesByPath = function (givenPath) {
                 resolve(fileList);
             }
         });
+    });
+};
+
+/**
+ * Example response (see https://github.com/resin-io-modules/drivelist for further instructions):
+ * [
+ *   {
+ *      "device":"\\\\.\\PHYSICALDRIVE0",
+ *      "description":"SAMSUNG SSD PM830 2.5\" 7",
+ *      "size":256052966400,
+ *      "raw":"\\\\.\\PHYSICALDRIVE0",
+ *      "system":true,
+ *      "protected":false,
+ *      "mountpoints":[
+ *          {"path":"C:"}
+ *      ]
+ *   },
+ *   {
+ *      ...
+ *   }
+ * ]
+ */
+FileService.prototype.getSystemDrives = function () {
+    drivelist.list((error, drives) => {
+        if (error) {
+            throw error;
+        }
+        return drives;
     });
 };
 
