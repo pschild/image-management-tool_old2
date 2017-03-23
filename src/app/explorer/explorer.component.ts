@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import 'rxjs/add/operator/map';
 import {Store} from "@ngrx/store";
 import {AppState} from "../shared/reducers";
-import {getFiles} from "./explorer.actions";
+import {getFiles, changeDirectory} from "./explorer.actions";
 
 @Component({
     selector: 'app-explorer',
@@ -13,29 +13,33 @@ export class ExplorerComponent implements OnInit {
 
     files = [];
     rootPath = 'C:';
-    currentPath = 'C:\\imt';
+    currentPath;
 
     constructor(private store: Store<AppState>) {
     }
 
     ngOnInit() {
-        this.store.select(state => state.explorerState).subscribe(
-            (explorerState) => {
+        this.store.select(state => state.explorerState)
+            .subscribe((explorerState) => {
                 this.files = explorerState.fileList;
+                this.currentPath = explorerState.currentDirectory
             }
         );
 
+        this.store.dispatch(changeDirectory(this.currentPath));
         this.getFilesOfCurrentDirectory();
     }
 
     handleFolderClicked(folderName) {
         this.currentPath += '\\' + folderName;
+        this.store.dispatch(changeDirectory(this.currentPath));
         this.getFilesOfCurrentDirectory();
     }
 
     openPreviousDirectory() {
         let lastIndex = this.currentPath.lastIndexOf('\\');
         this.currentPath = this.currentPath.substring(0, lastIndex);
+        this.store.dispatch(changeDirectory(this.currentPath));
         this.getFilesOfCurrentDirectory();
     }
 

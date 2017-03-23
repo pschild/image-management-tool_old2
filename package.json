@@ -11,7 +11,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "postinstall": "install-app-deps",
-    "build-electron": "ng build --prod --base-href . && xcopy main.js dist\\main.js* && xcopy package.json dist\\package.json* && xcopy server dist\\server /E /S /I",
+    "build-electron": "ng build --base-href . && xcopy main.js dist\\main.js* && xcopy package.json dist\\package.json* && xcopy server dist\\server /E /S /I",
     "electron": "npm run build-electron && electron dist",
     "electron-win": "npm run build-electron && cd dist && npm install && cd .. && electron-packager ./dist ImageManagementTool --out ./build --platform=win32 --arch=x64 --overwrite"
   },

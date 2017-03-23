@@ -16,7 +16,9 @@ export class AppEffects {
         .map((action) => action.payload)
         .switchMap(
             (path) => this.explorerService.getFiles(path)
-                .map((result: FilesGetResponse) => actions.getFilesSuccess(result.files))
+                .map((result: FilesGetResponse) => {
+                    return actions.getFilesSuccess(result.files);
+                })
                 .catch((response: FilesGetErrorResponse) => {
                     return Observable.of(actions.getFilesError(response.error));
                 })
