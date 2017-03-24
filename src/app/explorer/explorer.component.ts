@@ -13,6 +13,7 @@ export class ExplorerComponent implements OnInit {
 
     files = [];
     currentPath;
+    isFileListLoading: boolean = false;
 
     constructor(private store: Store<AppState>) {
     }
@@ -21,7 +22,8 @@ export class ExplorerComponent implements OnInit {
         this.store.select(state => state.explorerState)
             .subscribe((explorerState) => {
                 this.files = explorerState.fileList;
-                this.currentPath = explorerState.currentDirectory
+                this.currentPath = explorerState.currentDirectory;
+                this.isFileListLoading = explorerState.isFileListLoading;
             }
         );
 

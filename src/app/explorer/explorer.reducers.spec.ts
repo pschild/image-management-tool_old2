@@ -6,7 +6,7 @@ describe('ExplorerReducer', () => {
         const state = {
             currentDirectory: 'C:\\initial\\dir',
             fileList: [],
-            isFileListLoaded: false
+            isFileListLoading: false
         };
 
         let mockedDirectory = 'C:\\mocked\\dir';

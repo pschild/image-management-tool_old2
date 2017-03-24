@@ -5,28 +5,31 @@ import {File} from "../shared/file.model";
 export interface ExplorerState {
     currentDirectory: string,
     fileList: File[];
-    isFileListLoaded: boolean;
+    isFileListLoading: boolean;
 }
 
 const initialExplorerState: ExplorerState = {
     currentDirectory: 'C:\\imt',
     fileList: [],
-    isFileListLoaded: false
+    isFileListLoading: false
 };
 
 export const ExplorerReducer: ActionReducer<ExplorerState> = (state = initialExplorerState, action: Action) => {
     let newState;
     switch (action.type) {
         case ExplorerActions.GET_FILES:
-            return state;
+            newState = Object.assign({}, state);
+            newState.isFileListLoading = true;
+            return newState;
 
         case ExplorerActions.GET_FILES_SUCCESS:
             newState = Object.assign({}, state);
             newState.fileList = action.payload;
-            newState.isFileListLoaded = true;
+            newState.isFileListLoading = false;
             return newState;
 
         case ExplorerActions.GET_FILES_ERROR:
+            newState.isFileListLoading = false;
             console.error(`Error while getting files: ${action.payload}`);
             return state;
 

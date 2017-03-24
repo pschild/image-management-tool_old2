@@ -4,6 +4,7 @@ import {FormsModule} from "@angular/forms";
 import {ExplorerComponent} from "./explorer.component";
 import {ImageComponent} from "../image/image.component";
 import {ExplorerService} from "./explorer.service";
+import {LoadingSpinnerComponent} from "../loading-spinner/loading-spinner.component";
 
 @NgModule({
     imports: [
@@ -12,7 +13,8 @@ import {ExplorerService} from "./explorer.service";
     ],
     declarations: [
         ExplorerComponent,
-        ImageComponent
+        ImageComponent,
+        LoadingSpinnerComponent
     ],
     providers: [ExplorerService]
 })

@@ -1,8 +1,13 @@
 <h2>{{currentPath || 'Mein Computer'}}</h2>
 
-<a *ngIf="currentPath" (click)="openPreviousDirectory()">&laquo; zurück</a>
+<div *ngIf="isFileListLoading">
+    <app-loading-spinner></app-loading-spinner>
+</div>
+<div *ngIf="!isFileListLoading">
+    <a *ngIf="currentPath" (click)="openPreviousDirectory()">&laquo; zurück</a>
 
-<div *ngFor="let file of files">
-  <a *ngIf="file.isDirectory" (click)="handleFolderClicked(file.fileName)">{{file.fileName}}</a>
-  <app-image *ngIf="file.isImage" [fullPath]="file.fullPath" [path]="file.path" [fileName]="file.fileName"></app-image>
+    <div *ngFor="let file of files">
+        <a *ngIf="file.isDirectory" (click)="handleFolderClicked(file.fileName)">{{file.fileName}}</a>
+        <app-image *ngIf="file.isImage" [fullPath]="file.fullPath" [path]="file.path" [fileName]="file.fileName"></app-image>
+    </div>
 </div>
