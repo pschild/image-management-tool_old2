@@ -12,7 +12,7 @@ import {ExplorerService} from "./explorer.service";
     ],
     declarations: [
         ExplorerComponent,
-        ImageComponent,
+        ImageComponent
     ],
     providers: [ExplorerService]
 })

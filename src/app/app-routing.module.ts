@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {ExplorerComponent} from "./explorer/explorer.component";
 import {ImprintComponent} from "./imprint/imprint.component";
+import {APP_BASE_HREF} from "@angular/common";
 
 const routes: Routes = [
     { path: '', redirectTo: '/explorer', pathMatch: 'full' },
@@ -12,7 +13,7 @@ const routes: Routes = [
 @NgModule({
     imports: [RouterModule.forRoot(routes)],
     exports: [RouterModule],
-    providers: []
+    providers: [{provide: APP_BASE_HREF, useValue: '/'}]
 })
 export class AppRoutingModule {
 }
