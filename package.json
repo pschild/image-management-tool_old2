@@ -29,6 +29,7 @@
     "@ngrx/effects": "^2.0.1",
     "@ngrx/store": "^2.2.1",
     "body-parser": "^1.17.1",
+    "bootstrap": "^4.0.0-alpha.6",
     "core-js": "^2.4.1",
     "drivelist": "^5.0.18",
     "express": "^4.15.2",
