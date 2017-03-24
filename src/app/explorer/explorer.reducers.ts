@@ -11,7 +11,7 @@ export interface ExplorerState {
 const initialExplorerState: ExplorerState = {
     currentDirectory: 'C:\\imt',
     fileList: [],
-    isFileListLoaded: false,
+    isFileListLoaded: false
 };
 
 export const ExplorerReducer: ActionReducer<ExplorerState> = (state = initialExplorerState, action: Action) => {
