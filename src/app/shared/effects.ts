@@ -4,7 +4,10 @@ import {Observable} from "rxjs";
 import {ExplorerService} from "../explorer/explorer.service";
 
 import * as actions from '../shared/actions';
-import {FilesGetResponse, FilesGetErrorResponse, ImageGetResponse, ImageGetErrorResponse} from "./responses";
+import {
+    FilesGetResponse, FilesGetErrorResponse,
+    ImagesGetResponse, ImagesGetErrorResponse
+} from "./responses";
 import {ImageService} from "../image/image.service";
 
 @Injectable()
@@ -25,16 +28,16 @@ export class AppEffects {
                 })
         );
 
-    @Effect() getImageEffects$ = this.actions$
-        .ofType(actions.GET_IMAGE)
+    @Effect() getImagesEffects$ = this.actions$
+        .ofType(actions.GET_IMAGES)
         .map((action) => action.payload)
         .mergeMap(
-            (payload) => this.imageService.getImage(payload.path, payload.name)
-                .map((result: ImageGetResponse) => {
-                    return actions.getImageSuccess(result.image);
+            (payload) => this.imageService.getImagesByPathAndNames(payload.path, payload.names)
+                .map((result: ImagesGetResponse) => {
+                    return actions.getImagesSuccess(result.images);
                 })
-                .catch((response: ImageGetErrorResponse) => {
-                    return Observable.of(actions.getImageError(response.error));
+                .catch((response: ImagesGetErrorResponse) => {
+                    return Observable.of(actions.getImagesError(response.error));
                 })
         );
 }

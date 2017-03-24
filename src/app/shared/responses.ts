@@ -5,7 +5,11 @@ export interface ImageGetResponse {
     image: Image;
 }
 
-export interface ImageGetErrorResponse {
+export interface ImagesGetResponse {
+    images: Image[];
+}
+
+export interface ImagesGetErrorResponse {
     success: boolean;
     error: string;
 }

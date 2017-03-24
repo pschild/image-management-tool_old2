@@ -4,6 +4,8 @@ import {Store} from "@ngrx/store";
 import {AppState} from "../shared/reducers";
 import {getFiles, changeDirectory} from "./explorer.actions";
 import {Subscription} from "rxjs";
+import {getImages} from "../image/image.actions";
+import {File} from "../shared/file.model";
 
 @Component({
     selector: 'app-explorer',
@@ -27,6 +29,14 @@ export class ExplorerComponent implements OnInit {
                 this.files = explorerState.fileList;
                 this.currentPath = explorerState.currentDirectory;
                 this.isFileListLoading = explorerState.isFileListLoading;
+            }
+        );
+
+        this.store.select('explorerState', 'fileList')
+            .subscribe((fileList: File[]) => {
+                if (fileList.length) {
+                    this.store.dispatch(getImages(this.currentPath, fileList.map((file: File) => { return file.fileName })));
+                }
             }
         );
 

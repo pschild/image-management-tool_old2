@@ -40,6 +40,19 @@ ImageService.prototype.findByPathAndName = function (path, name) {
     });
 };
 
+ImageService.prototype.findByPathAndNames = function (path, imageNames) {
+    return new Promise((resolve, reject) => {
+        let inStatement = '"' + imageNames.join('","') + '"';
+        db.all("SELECT * FROM image WHERE path=? AND name IN (" + inStatement + ")", [decodeURI(path)], function (err, rows) {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(rows);
+            }
+        });
+    });
+};
+
 ImageService.prototype.create = function (data) {
     return new Promise((resolve, reject) => {
         db.run("INSERT INTO image (name) VALUES (?)", data.name, function (err) {

@@ -31,6 +31,17 @@ exports = module.exports = function (expressApp) {
             });
     });
 
+    // using post instead of get because the array of image names can be huge
+    expressApp.post('/images/byPathAndNames', function (req, res) {
+        imageService.findByPathAndNames(req.body.path, req.body.imageNames)
+            .then((images) => {
+                res.json({images: images});
+            })
+            .catch((error) => {
+                res.json({success: false, error: error});
+            });
+    });
+
     expressApp.post('/image', function (req, res) {
         imageService.create(req.body)
             .then((image) => {

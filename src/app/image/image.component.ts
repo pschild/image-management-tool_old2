@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {Input} from "@angular/core/src/metadata/directives";
 import {Store} from "@ngrx/store";
 import {AppState} from "../shared/reducers";
-import {getImage} from "./image.actions";
 import {Image} from "../shared/image.model";
 import {Subscription} from "rxjs";
 
@@ -25,13 +24,10 @@ export class ImageComponent implements OnInit {
     }
 
     ngOnInit() {
-        // TODO: simple http call instead of store/state?
         this.subscription = this.store.select(state => state.imagesState)
             .subscribe((imagesState) => {
                 this.image = imagesState.images.find(image => image && image.name === this.fileName);
             });
-
-        this.store.dispatch(getImage(encodeURI(this.path), this.fileName));
     }
 
     ngOnDestroy(){
