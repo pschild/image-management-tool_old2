@@ -6,33 +6,20 @@ var FileService = function () {
 };
 
 FileService.prototype.getFilesByPath = function (givenPath) {
-    if (givenPath === process.env.SystemDrive) {
-        givenPath += '/';
-    }
-
     if (!givenPath || givenPath === '') {
         return new Promise((resolve, reject) => {
-            resolve(
-                [
-                    {
-                        fileName: 'C:',
-                        path: 'C:/',
-                        fullPath: 'C:/',
-                        isFile: false,
-                        isDirectory: true,
-                        isImage: false
-                    },
-                    {
-                        fileName: 'D:',
-                        path: 'D:/',
-                        fullPath: 'D:/',
-                        isFile: false,
-                        isDirectory: true,
-                        isImage: false
-                    }
-                ]
-            );
+            this.getSystemDrives()
+                .then((systemDrives) => {
+                    resolve(systemDrives);
+                })
+                .catch((error) => {
+                    reject(error);
+                });
         });
+    }
+
+    if (givenPath === process.env.SystemDrive) {
+        givenPath += '/';
     }
 
     return new Promise((resolve, reject) => {
@@ -64,31 +51,29 @@ FileService.prototype.getFilesByPath = function (givenPath) {
     });
 };
 
-/**
- * Example response (see https://github.com/resin-io-modules/drivelist for further instructions):
- * [
- *   {
- *      "device":"\\\\.\\PHYSICALDRIVE0",
- *      "description":"SAMSUNG SSD PM830 2.5\" 7",
- *      "size":256052966400,
- *      "raw":"\\\\.\\PHYSICALDRIVE0",
- *      "system":true,
- *      "protected":false,
- *      "mountpoints":[
- *          {"path":"C:"}
- *      ]
- *   },
- *   {
- *      ...
- *   }
- * ]
- */
 FileService.prototype.getSystemDrives = function () {
-    drivelist.list((error, drives) => {
-        if (error) {
-            throw error;
-        }
-        return drives;
+    return new Promise((resolve, reject) => {
+        drivelist.list((error, driveList) => {
+            if (error) {
+                reject(error);
+            }
+
+            let driveDirectories = [];
+            driveList.forEach((driveInfo) => {
+                let mountpoints = driveInfo.mountpoints;
+                mountpoints.forEach((mountpoint) => {
+                    driveDirectories.push({
+                        fileName: mountpoint.path,
+                        path: mountpoint.path + '/',
+                        fullPath: mountpoint.path + '/',
+                        isFile: false,
+                        isDirectory: true,
+                        isImage: false
+                    });
+                });
+            });
+            resolve(driveDirectories);
+        });
     });
 };
 
