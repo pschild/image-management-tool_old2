@@ -3,6 +3,7 @@ import 'rxjs/add/operator/map';
 import {Store} from "@ngrx/store";
 import {AppState} from "../shared/reducers";
 import {getFiles, changeDirectory} from "./explorer.actions";
+import {Subscription} from "rxjs";
 
 @Component({
     selector: 'app-explorer',
@@ -15,11 +16,13 @@ export class ExplorerComponent implements OnInit {
     currentPath;
     isFileListLoading: boolean = false;
 
+    subscription: Subscription;
+
     constructor(private store: Store<AppState>) {
     }
 
     ngOnInit() {
-        this.store.select(state => state.explorerState)
+        this.subscription = this.store.select(state => state.explorerState)
             .subscribe((explorerState) => {
                 this.files = explorerState.fileList;
                 this.currentPath = explorerState.currentDirectory;
@@ -29,6 +32,10 @@ export class ExplorerComponent implements OnInit {
 
         this.store.dispatch(changeDirectory(this.currentPath));
         this.getFilesOfCurrentDirectory();
+    }
+
+    ngOnDestroy(){
+        this.subscription.unsubscribe();
     }
 
     handleFolderClicked(folderName) {

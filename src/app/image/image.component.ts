@@ -1,7 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {Input} from "@angular/core/src/metadata/directives";
-import {Http} from "@angular/http";
-import {ImageGetResponse} from "../shared/responses";
+import {Store} from "@ngrx/store";
+import {AppState} from "../shared/reducers";
+import {getImage} from "./image.actions";
+import {Image} from "../shared/image.model";
+import {Subscription} from "rxjs";
 
 @Component({
     selector: 'app-image',
@@ -10,30 +13,29 @@ import {ImageGetResponse} from "../shared/responses";
 })
 export class ImageComponent implements OnInit {
 
-    private id: number;
+    image: Image;
 
     @Input() fullPath: string;
     @Input() path: string;
     @Input() fileName: string;
 
-    constructor(private http: Http) {
+    subscription: Subscription;
+
+    constructor(private store: Store<AppState>) {
     }
 
     ngOnInit() {
-        this.getImageInfo();
+        // TODO: simple http call instead of store/state?
+        this.subscription = this.store.select(state => state.imagesState)
+            .subscribe((imagesState) => {
+                this.image = imagesState.images.find(image => image && image.name === this.fileName);
+            });
+
+        this.store.dispatch(getImage(encodeURI(this.path), this.fileName));
     }
 
-    getImageInfo() {
-        var escapedPath = encodeURI(this.path);
-        this.http.get(`http://localhost:1234/image/${escapedPath}/${this.fileName}`)
-            .map(res => res.json())
-            .subscribe(
-                (imageResponse: ImageGetResponse) => {
-                    if (imageResponse.image) {
-                        this.id = imageResponse.image.id;
-                    }
-                }
-            );
+    ngOnDestroy(){
+        this.subscription.unsubscribe();
     }
 
 }

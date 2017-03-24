@@ -1,2 +1,4 @@
 <img src="file://{{fullPath}}" width="100"/>
-ID: {{id}}
+{{fileName}}
+<span *ngIf="image">ID={{image.id}}</span>
+<span *ngIf="!image"><strong>*NEW*</strong></span>

@@ -5,6 +5,7 @@ import {ExplorerComponent} from "./explorer.component";
 import {ImageComponent} from "../image/image.component";
 import {ExplorerService} from "./explorer.service";
 import {LoadingSpinnerComponent} from "../loading-spinner/loading-spinner.component";
+import {ImageService} from "../image/image.service";
 
 @NgModule({
     imports: [
@@ -16,7 +17,7 @@ import {LoadingSpinnerComponent} from "../loading-spinner/loading-spinner.compon
         ImageComponent,
         LoadingSpinnerComponent
     ],
-    providers: [ExplorerService]
+    providers: [ExplorerService, ImageService]
 })
 export class ExplorerModule {
 }
