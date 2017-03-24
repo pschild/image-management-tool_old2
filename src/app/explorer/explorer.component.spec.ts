@@ -33,4 +33,10 @@ describe('ExplorerComponent', () => {
     it('should create', () => {
         expect(component).toBeTruthy();
     });
+
+    it(`should have no current directory`, async(() => {
+        const fixture = TestBed.createComponent(ExplorerComponent);
+        const explorer = fixture.debugElement.componentInstance;
+        expect(explorer.currentPath).toBeUndefined();
+    }));
 });
