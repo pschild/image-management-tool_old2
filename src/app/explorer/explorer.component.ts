@@ -26,7 +26,7 @@ export class ExplorerComponent implements OnInit {
     ngOnInit() {
         this.subscription = this.store.select(state => state.explorerState)
             .subscribe((explorerState) => {
-                this.files = explorerState.fileList;
+                this.files = explorerState.fileList.filter((file: File) => { return file.isDirectory || file.isImage });
                 this.currentPath = explorerState.currentDirectory;
                 this.isFileListLoading = explorerState.isFileListLoading;
             }
