@@ -17,6 +17,13 @@ export const EditorReducer: ActionReducer<EditorState> = (state = initialEditorS
             newState.selection.push(action.payload);
             return newState;
 
+        case EditorActions.REMOVE_FROM_SELECTION:
+            newState = Object.assign({}, state);
+            newState.selection = newState.selection.filter((item) => {
+                return !(item.path === action.payload.path && item.fileName === action.payload.fileName);
+            });
+            return newState;
+
         case EditorActions.CLEAR_SELECTION:
             newState = Object.assign({}, state);
             newState.selection = [];

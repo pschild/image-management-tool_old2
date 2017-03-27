@@ -6,6 +6,7 @@ import {getFiles, changeDirectory} from "./explorer.actions";
 import {Subscription} from "rxjs";
 import {getImages} from "../image/image.actions";
 import {File} from "../shared/file.model";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-explorer',
@@ -17,35 +18,46 @@ export class ExplorerComponent implements OnInit, OnDestroy {
     files = [];
     currentPath;
     isFileListLoading: boolean = false;
+    showBulkEditButton: boolean = false;
+    bulkEditCount: number;
 
-    subscription: Subscription;
+    subscriptions: Subscription[] = [];
 
-    constructor(private store: Store<AppState>) {
+    constructor(private store: Store<AppState>, private router: Router) {
     }
 
     ngOnInit() {
-        this.subscription = this.store.select(state => state.explorerState)
+        this.subscriptions.push(this.store.select(state => state.explorerState)
             .subscribe((explorerState) => {
                 this.files = explorerState.fileList.filter((file: File) => { return file.isDirectory || file.isImage });
                 this.currentPath = explorerState.currentDirectory;
                 this.isFileListLoading = explorerState.isFileListLoading;
             }
-        );
+        ));
 
-        this.store.select('explorerState', 'fileList')
+        this.subscriptions.push(this.store.select('explorerState', 'fileList')
             .subscribe((fileList: File[]) => {
                 if (fileList.length) {
                     this.store.dispatch(getImages(this.currentPath, fileList.map((file: File) => { return file.fileName })));
                 }
             }
-        );
+        ));
+
+        this.subscriptions.push(this.store.select(state => state.editorState)
+            .subscribe((editorState) => {
+                this.showBulkEditButton = editorState.selection.length > 1;
+                this.bulkEditCount = editorState.selection.length;
+            }
+        ));
 
         this.store.dispatch(changeDirectory(this.currentPath));
         this.getFilesOfCurrentDirectory();
     }
 
     ngOnDestroy() {
-        this.subscription.unsubscribe();
+        this.subscriptions.forEach((subscription: Subscription) => {
+            subscription.unsubscribe();
+        });
     }
 
     handleFolderClicked(folderName) {
@@ -55,6 +67,10 @@ export class ExplorerComponent implements OnInit, OnDestroy {
         this.currentPath += folderName;
         this.store.dispatch(changeDirectory(this.currentPath));
         this.getFilesOfCurrentDirectory();
+    }
+
+    handleBulkEditButtonClicked() {
+        this.router.navigate(['editor']);
     }
 
     openPreviousDirectory() {

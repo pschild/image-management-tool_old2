@@ -11,6 +11,12 @@
     right: 5px;
 }
 
+.custom-checkbox {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+}
+
 .file-name-label {
     text-overflow: ellipsis;
     display: block;

@@ -4,6 +4,8 @@
     </div>
 </div>
 
+<button class="btn btn-primary" *ngIf="showBulkEditButton" (click)="handleBulkEditButtonClicked()">{{bulkEditCount}} Bilder editieren</button>
+
 <div *ngIf="isFileListLoading">
     <app-loading-spinner></app-loading-spinner>
 </div>

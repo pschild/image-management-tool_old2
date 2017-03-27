@@ -1,3 +1,7 @@
 <div class="image-tile-inner" (click)="handleImageClicked()" [style.background-image]="trustedImagePath"></div>
 <small class="file-name-label">{{fileName}}</small>
 <span *ngIf="!image" class="badge badge-primary">NEU</span>
+<label class="custom-control custom-checkbox">
+    <input type="checkbox" class="custom-control-input" (change)="$event.target.checked ? select() : deselect()">
+    <span class="custom-control-indicator"></span>
+</label>

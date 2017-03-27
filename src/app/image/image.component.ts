@@ -5,7 +5,7 @@ import {Image} from "../shared/image.model";
 import {Subscription} from "rxjs";
 import {DomSanitizer, SafeStyle} from '@angular/platform-browser';
 import {Router} from "@angular/router";
-import {addForEdit} from "../editor/editor.actions";
+import {addToBulkEditList, clearSelection, removeFromBulkEditList} from "../editor/editor.actions";
 
 @Component({
     selector: 'app-image',
@@ -41,12 +41,21 @@ export class ImageComponent implements OnInit, OnDestroy {
     }
 
     handleImageClicked() {
-        this.store.dispatch(addForEdit(this.path, this.fileName));
+        this.store.dispatch(clearSelection());
+        this.select();
         this.router.navigate(['editor']);
     }
 
     ngOnDestroy() {
         this.subscription.unsubscribe();
+    }
+
+    select() {
+        this.store.dispatch(addToBulkEditList(this.path, this.fileName));
+    }
+
+    deselect() {
+        this.store.dispatch(removeFromBulkEditList(this.path, this.fileName));
     }
 
 }
