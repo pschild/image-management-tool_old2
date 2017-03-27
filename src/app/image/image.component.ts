@@ -5,6 +5,7 @@ import {AppState} from "../shared/reducers";
 import {Image} from "../shared/image.model";
 import {Subscription} from "rxjs";
 import {DomSanitizer, SafeStyle} from '@angular/platform-browser';
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-image',
@@ -22,7 +23,7 @@ export class ImageComponent implements OnInit {
     subscription: Subscription;
     trustedImagePath: SafeStyle;
 
-    constructor(private store: Store<AppState>, private sanitizer: DomSanitizer) {
+    constructor(private store: Store<AppState>, private sanitizer: DomSanitizer, private router: Router) {
     }
 
     ngOnInit() {
@@ -34,9 +35,13 @@ export class ImageComponent implements OnInit {
         this.trustedImagePath = this.sanitizePath();
     }
 
-    private sanitizePath() {
+    sanitizePath() {
         let urlWithDoubleBackslashes = decodeURI(this.fullPath).split('\\').join('\\\\');
         return this.sanitizer.bypassSecurityTrustStyle('url("' + urlWithDoubleBackslashes + '")');
+    }
+
+    handleImageClicked() {
+        this.router.navigate(['editor', this.path, this.fileName]);
     }
 
     ngOnDestroy() {

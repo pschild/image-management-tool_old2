@@ -12,12 +12,14 @@ import {StoreModule} from "@ngrx/store";
 import {EffectsModule} from "@ngrx/effects";
 import {reducer} from "./shared/reducers";
 import {AppEffects} from "./shared/effects";
+import { EditorComponent } from './editor/editor.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         NavigationComponent,
-        ImprintComponent
+        ImprintComponent,
+        EditorComponent
     ],
     imports: [
         AppRoutingModule,
