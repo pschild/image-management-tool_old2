@@ -1,0 +1,12 @@
+.scroll-wrapper {
+    white-space: nowrap;
+    overflow-x: auto;
+    height: 180px;
+    padding: 5px;
+}
+
+.scroll-wrapper > img {
+    display: inline-block;
+    height: 100%;
+    padding: 5px;
+}
