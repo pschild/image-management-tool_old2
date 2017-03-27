@@ -6,15 +6,31 @@ var DatabaseService = function () {
 };
 
 DatabaseService.prototype.create = function () {
-    return new Promise((resolve, reject) => {
-        this._db.serialize(() => {
-            this._db.run("CREATE TABLE if not exists image (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, name TEXT, path TEXT)", [], (error) => {
-                if (error) {
-                    reject(error);
-                } else {
-                    resolve();
-                }
-            });
+    this._db.serialize(() => {
+        this._db.run("CREATE TABLE if not exists image (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, name TEXT, path TEXT)", [], (error) => {
+            if (error) {
+                throw new Error(`Error during creation of table: ${error}`);
+            }
+        });
+
+        this._db.run("CREATE TABLE if not exists tag (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, name TEXT)", [], (error) => {
+            if (error) {
+                throw new Error(`Error during creation of table: ${error}`);
+            }
+        });
+
+        this._db.run("CREATE TABLE if not exists image_tags (imageId INTEGER NOT NULL, tagId INTEGER NOT NULL)", [], (error) => {
+            if (error) {
+                throw new Error(`Error during creation of table: ${error}`);
+            }
+        });
+    });
+
+    this._db.serialize(() => {
+        this._db.run("CREATE UNIQUE INDEX `image-tags-unique-constr` ON image_tags (imageId ,tagId)", [], (error) => {
+            if (error) {
+                throw new Error(`Error during creation of index: ${error}`);
+            }
         });
     });
 };
