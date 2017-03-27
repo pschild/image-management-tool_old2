@@ -18,6 +18,7 @@ function init(port) {
 
     require('./routes/files')(expressApp);
     require('./routes/images')(expressApp);
+    require('./routes/tags')(expressApp);
 
     expressApp.listen(port, function () {
         console.log(`App listening at http://localhost:${port}`);

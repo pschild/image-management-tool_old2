@@ -27,7 +27,7 @@ DatabaseService.prototype.create = function () {
     });
 
     this._db.serialize(() => {
-        this._db.run("CREATE UNIQUE INDEX `image-tags-unique-constr` ON image_tags (imageId ,tagId)", [], (error) => {
+        this._db.run("CREATE UNIQUE INDEX if not exists `image-tags-unique-constr` ON image_tags (imageId ,tagId)", [], (error) => {
             if (error) {
                 throw new Error(`Error during creation of index: ${error}`);
             }
