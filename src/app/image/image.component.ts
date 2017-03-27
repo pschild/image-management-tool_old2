@@ -1,17 +1,18 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Store} from "@ngrx/store";
 import {AppState} from "../shared/reducers";
 import {Image} from "../shared/image.model";
 import {Subscription} from "rxjs";
 import {DomSanitizer, SafeStyle} from '@angular/platform-browser';
 import {Router} from "@angular/router";
+import {addForEdit} from "../editor/editor.actions";
 
 @Component({
     selector: 'app-image',
     templateUrl: './image.component.html',
     styleUrls: ['./image.component.css']
 })
-export class ImageComponent implements OnInit {
+export class ImageComponent implements OnInit, OnDestroy {
 
     image: Image;
 
@@ -40,7 +41,8 @@ export class ImageComponent implements OnInit {
     }
 
     handleImageClicked() {
-        this.router.navigate(['editor', this.path, this.fileName]);
+        this.store.dispatch(addForEdit(this.path, this.fileName));
+        this.router.navigate(['editor']);
     }
 
     ngOnDestroy() {

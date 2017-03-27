@@ -1,31 +1,38 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from "rxjs";
-import {ActivatedRoute} from "@angular/router";
+import {Store} from "@ngrx/store";
+import {AppState} from "../shared/reducers";
+import {clearSelection} from "./editor.actions";
 
 @Component({
     selector: 'app-editor',
     templateUrl: './editor.component.html',
     styleUrls: ['./editor.component.css']
 })
-export class EditorComponent implements OnInit {
+export class EditorComponent implements OnInit, OnDestroy {
 
-    path: string;
-    fileName: string;
+    items: any[];
 
     subscription: Subscription;
 
-    constructor(private route: ActivatedRoute) {
+    constructor(private store: Store<AppState>) {
     }
 
     ngOnInit() {
-        this.subscription = this.route.params.subscribe(params => {
-            this.path = decodeURI(params['path']);
-            this.fileName = params['fileName'];
-        });
+        this.subscription = this.store.select(state => state.editorState)
+            .subscribe((editorState) => {
+                this.items = editorState.selection.map((pathAndFileName) => {
+                    return {
+                        path: decodeURI(pathAndFileName.path),
+                        fileName: pathAndFileName.fileName
+                    }
+                });
+            });
     }
 
     ngOnDestroy() {
         this.subscription.unsubscribe();
+        this.store.dispatch(clearSelection());
     }
 
 }

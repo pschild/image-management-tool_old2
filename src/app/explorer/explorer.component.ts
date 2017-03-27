@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import 'rxjs/add/operator/map';
 import {Store} from "@ngrx/store";
 import {AppState} from "../shared/reducers";
@@ -12,7 +12,7 @@ import {File} from "../shared/file.model";
     templateUrl: './explorer.component.html',
     styleUrls: ['./explorer.component.css']
 })
-export class ExplorerComponent implements OnInit {
+export class ExplorerComponent implements OnInit, OnDestroy {
 
     files = [];
     currentPath;
