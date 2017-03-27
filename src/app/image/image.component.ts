@@ -1,5 +1,4 @@
-import {Component, OnInit} from '@angular/core';
-import {Input} from "@angular/core/src/metadata/directives";
+import {Component, Input, OnInit} from '@angular/core';
 import {Store} from "@ngrx/store";
 import {AppState} from "../shared/reducers";
 import {Image} from "../shared/image.model";
