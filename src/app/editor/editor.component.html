@@ -1,5 +1,5 @@
 <div *ngIf="items.length > 1" class="scroll-wrapper">
-    <img *ngFor="let item of items" src="file:///{{item.path}}\{{item.fileName}}">
+    <img *ngFor="let item of items" src="file:///{{item.path}}\{{item.fileName}}" (click)="removeFromSelection(item)">
 </div>
 
 <img *ngIf="items.length === 1" src="file:///{{items[0].path}}\{{items[0].fileName}}" class="img-fluid">
