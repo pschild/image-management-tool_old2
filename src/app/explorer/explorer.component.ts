@@ -44,7 +44,7 @@ export class ExplorerComponent implements OnInit {
         this.getFilesOfCurrentDirectory();
     }
 
-    ngOnDestroy(){
+    ngOnDestroy() {
         this.subscription.unsubscribe();
     }
 

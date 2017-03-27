@@ -35,8 +35,8 @@ export class ImageComponent implements OnInit {
     }
 
     private sanitizePath() {
-        let urlWithdoubleBackslashes = decodeURI(this.fullPath).split('\\').join('\\\\');
-        return this.sanitizer.bypassSecurityTrustStyle('url("' + urlWithdoubleBackslashes + '")');
+        let urlWithDoubleBackslashes = decodeURI(this.fullPath).split('\\').join('\\\\');
+        return this.sanitizer.bypassSecurityTrustStyle('url("' + urlWithDoubleBackslashes + '")');
     }
 
     ngOnDestroy() {
