@@ -4,6 +4,7 @@ import {Store} from "@ngrx/store";
 import {AppState} from "../shared/reducers";
 import {Image} from "../shared/image.model";
 import {Subscription} from "rxjs";
+import {DomSanitizer, SafeStyle} from '@angular/platform-browser';
 
 @Component({
     selector: 'app-image',
@@ -19,8 +20,9 @@ export class ImageComponent implements OnInit {
     @Input() fileName: string;
 
     subscription: Subscription;
+    trustedImagePath: SafeStyle;
 
-    constructor(private store: Store<AppState>) {
+    constructor(private store: Store<AppState>, private sanitizer: DomSanitizer) {
     }
 
     ngOnInit() {
@@ -28,9 +30,16 @@ export class ImageComponent implements OnInit {
             .subscribe((imagesState) => {
                 this.image = imagesState.images.find(image => image && image.name === this.fileName);
             });
+
+        this.trustedImagePath = this.sanitizePath();
     }
 
-    ngOnDestroy(){
+    private sanitizePath() {
+        let urlWithdoubleBackslashes = decodeURI(this.fullPath).split('\\').join('\\\\');
+        return this.sanitizer.bypassSecurityTrustStyle('url("' + urlWithdoubleBackslashes + '")');
+    }
+
+    ngOnDestroy() {
         this.subscription.unsubscribe();
     }
 

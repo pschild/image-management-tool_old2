@@ -1,4 +1,5 @@
 .folder-tile, .image-tile {
+    position: relative;
     height: 200px;
     border: 1px solid #ccc;
     padding: 10px;

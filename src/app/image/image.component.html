@@ -1,4 +1,3 @@
-<img src="file://{{fullPath}}" width="100"/>
-{{fileName}}
-<span *ngIf="image">ID={{image.id}}</span>
+<div class="image-tile-inner" [style.background-image]="trustedImagePath"></div>
+<small class="file-name-label">{{fileName}}</small>
 <span *ngIf="!image" class="badge badge-primary">NEU</span>

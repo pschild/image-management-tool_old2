@@ -35,8 +35,8 @@ FileService.prototype.getFilesByPath = function (givenPath) {
                         let stats = this.getStatOfFile(fullPath);
                         fileList.push({
                             fileName: fileName,
-                            path: givenPath,
-                            fullPath: fullPath,
+                            path: encodeURI(givenPath),
+                            fullPath: encodeURI(fullPath),
                             isFile: stats.isFile(),
                             isDirectory: stats.isDirectory(),
                             isImage: this.isImageFile(fileName)
@@ -64,8 +64,8 @@ FileService.prototype.getSystemDrives = function () {
                 mountpoints.forEach((mountpoint) => {
                     driveDirectories.push({
                         fileName: mountpoint.path,
-                        path: mountpoint.path + '/',
-                        fullPath: mountpoint.path + '/',
+                        path: encodeURI(mountpoint.path + '/'),
+                        fullPath: encodeURI(mountpoint.path + '/'),
                         isFile: false,
                         isDirectory: true,
                         isImage: false

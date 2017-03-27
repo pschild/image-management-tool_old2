@@ -1,0 +1,19 @@
+.image-tile-inner {
+    width: 100%;
+    height: 90%;
+    background-size: cover;
+    background: no-repeat 50%;
+}
+
+.badge {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+.file-name-label {
+    text-overflow: ellipsis;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+}
