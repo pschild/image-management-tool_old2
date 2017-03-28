@@ -54,8 +54,21 @@ ImageService.prototype.findByPathAndNames = function (path, imageNames) {
 };
 
 ImageService.prototype.create = function (data) {
+    let placeholders = {
+        $name: data.name,
+        $path: data.path,
+        $comment: data.comment,
+        $fromDay: data.fromDay,
+        $fromMonth: data.fromMonth,
+        $fromYear: data.fromYear,
+        $toDay: data.toDay,
+        $toMonth: data.toMonth,
+        $toYear: data.toYear
+    };
+    
     return new Promise((resolve, reject) => {
-        db.run("INSERT INTO image (name) VALUES (?)", data.name, function (err) {
+        db.run("INSERT INTO image (name, path, comment, fromDay, fromMonth, fromYear, toDay, toMonth, toYear) " +
+            "VALUES ($name, $path, $comment, $fromDay, $fromMonth, $fromYear, $toDay, $toMonth, $toYear)", placeholders, function (err) {
             if (err) {
                 reject(err);
             } else {
@@ -66,8 +79,22 @@ ImageService.prototype.create = function (data) {
 };
 
 ImageService.prototype.update = function (id, data) {
+    let placeholders = {
+        $id: id,
+        $name: data.name,
+        $path: data.path,
+        $comment: data.comment,
+        $fromDay: data.fromDay,
+        $fromMonth: data.fromMonth,
+        $fromYear: data.fromYear,
+        $toDay: data.toDay,
+        $toMonth: data.toMonth,
+        $toYear: data.toYear
+    };
+
     return new Promise((resolve, reject) => {
-        db.run("UPDATE image SET name=? WHERE id=?", [data.name, +id], (err) => {
+        db.run("UPDATE image SET name=$name, path=$path, comment=$comment, fromDay=$fromDay, fromMonth=$fromMonth, fromYear=$fromYear, toDay=$toDay, toMonth=$toMonth, toYear=$toYear " +
+            "WHERE id=$id", placeholders, (err) => {
             if (err) {
                 reject(err);
             } else {

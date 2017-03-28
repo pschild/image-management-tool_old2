@@ -7,7 +7,18 @@ var DatabaseService = function () {
 
 DatabaseService.prototype.create = function () {
     this._db.serialize(() => {
-        this._db.run("CREATE TABLE if not exists image (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, name TEXT, path TEXT)", [], (error) => {
+        this._db.run("CREATE TABLE if not exists image (" +
+                "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+                "name TEXT, " +
+                "path TEXT, " +
+                "fromDay INTEGER, " +
+                "fromMonth INTEGER, " +
+                "fromYear INTEGER, " +
+                "toDay INTEGER, " +
+                "toMonth INTEGER, " +
+                "toYear INTEGER, " +
+                "comment TEXT" +
+            ")", [], (error) => {
             if (error) {
                 throw new Error(`Error during creation of table: ${error}`);
             }
