@@ -8,18 +8,17 @@ import {AppRoutingModule} from "./app-routing.module";
 import {NavigationComponent} from './navigation/navigation.component';
 import {ImprintComponent} from './imprint/imprint.component';
 import {ExplorerModule} from "./explorer/explorer.module";
+import {EditorModule} from "./editor/editor.module";
 import {StoreModule} from "@ngrx/store";
 import {EffectsModule} from "@ngrx/effects";
 import {reducer} from "./shared/reducers";
 import {AppEffects} from "./shared/effects";
-import { EditorComponent } from './editor/editor.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         NavigationComponent,
-        ImprintComponent,
-        EditorComponent
+        ImprintComponent
     ],
     imports: [
         AppRoutingModule,
@@ -27,6 +26,7 @@ import { EditorComponent } from './editor/editor.component';
         FormsModule,
         HttpModule,
         ExplorerModule,
+        EditorModule,
         StoreModule.provideStore(reducer),
         EffectsModule.run(AppEffects)
     ],

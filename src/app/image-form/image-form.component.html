@@ -1,0 +1,42 @@
+<form (ngSubmit)="onSubmit()" #imageForm="ngForm">
+    <div class="form-group row">
+        <label for="from-day" class="col-2 col-form-label">Aufnahmedatum</label>
+        <div class="col-1">
+            <input class="form-control" id="from-day" type="number" name="fromDay" [(ngModel)]="model.fromDay" max="31" min="0" placeholder="dd">
+        </div>
+        <div class="col-1">
+            <input class="form-control" id="from-month" type="number" name="formMonth" [(ngModel)]="model.fromMonth" max="12" min="0" placeholder="mm">
+        </div>
+        <div class="col-2">
+            <input class="form-control" id="from-year" type="number" name="fromYear" [(ngModel)]="model.fromYear" min="0" placeholder="yyyy">
+        </div>
+        <div class="col-2 d-flex justify-content-center">
+            <label class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" name="isTimePeriod" [(ngModel)]="isTimePeriod">
+                <span class="custom-control-indicator"></span>
+                <span class="custom-control-description">bis</span>
+            </label>
+        </div>
+        <div class="col-1" *ngIf="isTimePeriod">
+            <input class="form-control" id="to-day" type="number" name="toDay" [(ngModel)]="model.toDay" max="31" min="0" placeholder="dd">
+        </div>
+        <div class="col-1" *ngIf="isTimePeriod">
+            <input class="form-control" id="to-month" type="number" name="toMonth" [(ngModel)]="model.toMonth" max="12" min="0" placeholder="mm">
+        </div>
+        <div class="col-2" *ngIf="isTimePeriod">
+            <input class="form-control" id="to-year" type="number" name="toYear" [(ngModel)]="model.toYear" min="0" placeholder="yyyy">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="comment-textarea" class="col-2 col-form-label">Kommentar</label>
+        <div class="col-10">
+            <textarea class="form-control" id="comment-textarea" rows="3" name="comment" [(ngModel)]="model.comment"></textarea>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="offset-2 col-10">
+            <button type="submit" class="btn btn-primary">Speichern</button>
+        </div>
+    </div>
+    <pre>{{model | json }}</pre>
+</form>
