@@ -6,7 +6,8 @@ import {ExplorerService} from "../explorer/explorer.service";
 import * as actions from '../shared/actions';
 import {
     FilesGetResponse, FilesGetErrorResponse,
-    ImagesGetResponse, ImagesGetErrorResponse
+    ImagesGetResponse, ImagesGetErrorResponse, ImagePutResponse, ImagePutErrorResponse, ImagePostResponse,
+    ImagePostErrorResponse
 } from "./responses";
 import {ImageService} from "../image/image.service";
 
@@ -39,5 +40,30 @@ export class AppEffects {
                 .catch((response: ImagesGetErrorResponse) => {
                     return Observable.of(actions.getImagesError(response.error));
                 })
+        );
+
+    @Effect() saveImageEffects$ = this.actions$
+        .ofType(actions.SAVE_IMAGE)
+        .map((action) => action.payload)
+        .mergeMap(
+            (image) => {
+                if (image.id) {
+                    return this.imageService.update(image.id, image)
+                        .map((result: ImagePutResponse) => {
+                            return actions.saveImageSuccess(result.image);
+                        })
+                        .catch((response: ImagePutErrorResponse) => {
+                            return Observable.of(actions.saveImageError(response.error));
+                        });
+                } else {
+                    return this.imageService.create(image)
+                        .map((result: ImagePostResponse) => {
+                            return actions.saveImageSuccess(result.image);
+                        })
+                        .catch((response: ImagePostErrorResponse) => {
+                            return Observable.of(actions.saveImageError(response.error));
+                        })
+                }
+            }
         );
 }

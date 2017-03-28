@@ -30,7 +30,7 @@ ImageService.prototype.findById = function (id) {
 
 ImageService.prototype.findByPathAndName = function (path, name) {
     return new Promise((resolve, reject) => {
-        db.get("SELECT * FROM image WHERE path=? AND name=?", [path, name], function (err, row) {
+        db.get("SELECT * FROM image WHERE path=? AND name=?", [decodeURI(path), name], function (err, row) {
             if (err) {
                 reject(err);
             } else {
@@ -56,7 +56,7 @@ ImageService.prototype.findByPathAndNames = function (path, imageNames) {
 ImageService.prototype.create = function (data) {
     let placeholders = {
         $name: data.name,
-        $path: data.path,
+        $path: decodeURI(data.path),
         $comment: data.comment,
         $fromDay: data.fromDay,
         $fromMonth: data.fromMonth,
@@ -82,7 +82,7 @@ ImageService.prototype.update = function (id, data) {
     let placeholders = {
         $id: id,
         $name: data.name,
-        $path: data.path,
+        $path: decodeURI(data.path),
         $comment: data.comment,
         $fromDay: data.fromDay,
         $fromMonth: data.fromMonth,

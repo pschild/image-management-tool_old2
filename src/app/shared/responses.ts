@@ -5,6 +5,24 @@ export interface ImageGetResponse {
     image: Image;
 }
 
+export interface ImagePutResponse {
+    image: Image;
+}
+
+export interface ImagePostResponse {
+    image: Image;
+}
+
+export interface ImagePutErrorResponse {
+    success: boolean;
+    error: string;
+}
+
+export interface ImagePostErrorResponse {
+    success: boolean;
+    error: string;
+}
+
 export interface ImagesGetResponse {
     images: Image[];
 }

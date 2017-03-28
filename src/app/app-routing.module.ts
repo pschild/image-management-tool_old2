@@ -6,7 +6,7 @@ import {EditorComponent} from "./editor/editor.component";
 import {APP_BASE_HREF} from "@angular/common";
 
 const routes: Routes = [
-    { path: '', redirectTo: '/editor', pathMatch: 'full' },
+    { path: '', redirectTo: '/explorer', pathMatch: 'full' },
     { path: 'explorer', component: ExplorerComponent },
     { path: 'editor', component: EditorComponent },
     { path: 'imprint', component: ImprintComponent },
