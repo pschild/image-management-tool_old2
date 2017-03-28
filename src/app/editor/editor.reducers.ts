@@ -31,7 +31,8 @@ export const EditorReducer: ActionReducer<EditorState> = (state = initialEditorS
             newState.selection = [];
             return newState;
 
-        case EditorActions.SAVE_IMAGE:
+        case EditorActions.CREATE_IMAGE:
+        case EditorActions.UPDATE_IMAGE:
             newState = Object.assign({}, state);
             newState.isSavingInProgress = true;
             return newState;

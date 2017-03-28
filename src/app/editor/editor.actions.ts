@@ -5,7 +5,8 @@ export const ADD_TO_SELECTION = 'ADD_TO_SELECTION';
 export const REMOVE_FROM_SELECTION = 'REMOVE_FROM_SELECTION';
 export const CLEAR_SELECTION = 'CLEAR_SELECTION';
 
-export const SAVE_IMAGE = 'SAVE_IMAGE';
+export const CREATE_IMAGE = 'CREATE_IMAGE';
+export const UPDATE_IMAGE = 'UPDATE_IMAGE';
 export const SAVE_IMAGE_SUCCESS = 'SAVE_IMAGE_SUCCESS';
 export const SAVE_IMAGE_ERROR = 'SAVE_IMAGE_ERROR';
 
@@ -35,9 +36,16 @@ export function clearSelection(): Action {
     };
 }
 
-export function saveImage(image: Image): Action {
+export function createImage(image: Image): Action {
     return {
-        type: SAVE_IMAGE,
+        type: CREATE_IMAGE,
+        payload: image
+    };
+}
+
+export function updateImage(image: Image): Action {
+    return {
+        type: UPDATE_IMAGE,
         payload: image
     };
 }

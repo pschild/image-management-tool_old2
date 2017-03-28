@@ -42,28 +42,29 @@ export class AppEffects {
                 })
         );
 
-    @Effect() saveImageEffects$ = this.actions$
-        .ofType(actions.SAVE_IMAGE)
+    @Effect() createImageEffects$ = this.actions$
+        .ofType(actions.CREATE_IMAGE)
         .map((action) => action.payload)
         .mergeMap(
-            (image) => {
-                if (image.id) {
-                    return this.imageService.update(image.id, image)
-                        .map((result: ImagePutResponse) => {
-                            return actions.saveImageSuccess(result.image);
-                        })
-                        .catch((response: ImagePutErrorResponse) => {
-                            return Observable.of(actions.saveImageError(response.error));
-                        });
-                } else {
-                    return this.imageService.create(image)
-                        .map((result: ImagePostResponse) => {
-                            return actions.saveImageSuccess(result.image);
-                        })
-                        .catch((response: ImagePostErrorResponse) => {
-                            return Observable.of(actions.saveImageError(response.error));
-                        })
-                }
-            }
+            (image) => this.imageService.create(image)
+                .map((result: ImagePostResponse) => {
+                    return actions.saveImageSuccess(result.image);
+                })
+                .catch((response: ImagePostErrorResponse) => {
+                    return Observable.of(actions.saveImageError(response.error));
+                })
+        );
+
+    @Effect() updateImageEffects$ = this.actions$
+        .ofType(actions.UPDATE_IMAGE)
+        .map((action) => action.payload)
+        .mergeMap(
+            (image) => this.imageService.update(image.id, image)
+                .map((result: ImagePutResponse) => {
+                    return actions.saveImageSuccess(result.image);
+                })
+                .catch((response: ImagePutErrorResponse) => {
+                    return Observable.of(actions.saveImageError(response.error));
+                })
         );
 }
