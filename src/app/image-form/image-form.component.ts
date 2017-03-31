@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {Store} from "@ngrx/store";
 import {AppState} from "../shared/reducers";
 import {createImage, updateImage} from "../editor/editor.actions";
@@ -11,7 +11,7 @@ import {ImageGetResponse} from "../shared/responses";
     templateUrl: './image-form.component.html',
     styleUrls: ['./image-form.component.css']
 })
-export class ImageFormComponent implements OnInit, OnDestroy {
+export class ImageFormComponent implements OnInit, OnDestroy, OnChanges {
 
     @Input() items: any[];
 
@@ -45,10 +45,10 @@ export class ImageFormComponent implements OnInit, OnDestroy {
                 .subscribe((response: ImageGetResponse) => {
                     this.images = [response.image || {}]; // push empty object so that Object.assign can be used when saving
                     if (response.image) {
-                        this.formModel = Object.assign(this.initialValues, response.image);
+                        this.formModel = Object.assign({}, this.initialValues, response.image);
                     } else {
                         // set path and fileName when no image is found in the database
-                        this.formModel = Object.assign(this.initialValues, {
+                        this.formModel = Object.assign({}, this.initialValues, {
                             path: encodeURI(item.path),
                             name: item.fileName
                         });
@@ -67,10 +67,30 @@ export class ImageFormComponent implements OnInit, OnDestroy {
                     this.images = responses.filter(response => response.image).map((response: ImageGetResponse) => {
                         return response.image;
                     });
-                    this.formModel = Object.assign(this.initialValues, this.getCommonValues());
+                    this.formModel = Object.assign({}, this.initialValues, this.getCommonValues());
                     this.isTimePeriod = this.checkForTimePeriod();
                 }));
         }
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+        let currentItems = changes.items.currentValue;
+        let remainingImages = [];
+        currentItems.forEach((item) => {
+            let image = this.images.filter(image => image.path === item.path && image.name === item.fileName)[0];
+            if (image) {
+                remainingImages.push(image);
+            }
+        });
+        this.images = remainingImages;
+
+        if (remainingImages.length > 0) {
+            this.formModel = Object.assign({}, this.initialValues, this.getCommonValues());
+        } else {
+            this.formModel = this.initialValues;
+        }
+
+        this.isTimePeriod = this.checkForTimePeriod();
     }
 
     getCommonValues() {
