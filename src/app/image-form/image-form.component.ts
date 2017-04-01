@@ -137,9 +137,34 @@ export class ImageFormComponent implements OnInit, OnDestroy, OnChanges {
 
             for (let i = 1; i < this.images.length; i++) {
                 let image = this.images[i];
-                if (image[key] !== firstValue) {
-                    differenceFound = true;
-                    break;
+                if (Array.isArray(firstValue)) {
+                    console.log('array', firstValue);
+                    if (Array.isArray(image[key])) {
+                        if (image[key].length !== firstValue.length) {
+                            console.log('two arrays, different lengths');
+                            differenceFound = true;
+                            break;
+                        } else {
+                            console.log('same lengths');
+                            firstValue.forEach((firstValueItem) => {
+                                if (image[key].filter((imageItem) => firstValueItem.id === imageItem.id).length === 0) {
+                                    differenceFound = true;
+                                    console.log(`entry ${firstValueItem} not found => different`);
+                                    return;
+                                }
+                            });
+                            console.log('same arrays');
+                        }
+                    } else {
+                        console.log('one array, other is no array');
+                        differenceFound = true;
+                        break;
+                    }
+                } else {
+                    if (image[key] !== firstValue) {
+                        differenceFound = true;
+                        break;
+                    }
                 }
             }
 
