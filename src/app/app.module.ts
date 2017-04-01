@@ -13,6 +13,7 @@ import {StoreModule} from "@ngrx/store";
 import {EffectsModule} from "@ngrx/effects";
 import {reducer} from "./shared/reducers";
 import {AppEffects} from "./shared/effects";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
     declarations: [
@@ -27,6 +28,7 @@ import {AppEffects} from "./shared/effects";
         HttpModule,
         ExplorerModule,
         EditorModule,
+        BrowserAnimationsModule,
         StoreModule.provideStore(reducer),
         EffectsModule.run(AppEffects)
     ],

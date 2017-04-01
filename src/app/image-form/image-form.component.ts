@@ -4,7 +4,9 @@ import {AppState} from "../shared/reducers";
 import {createImage, updateImage} from "../editor/editor.actions";
 import {Observable, Subscription} from "rxjs";
 import {ImageService} from "../image/image.service";
-import {ImageGetResponse} from "../shared/responses";
+import {ImageGetResponse, TagsGetResponse} from "../shared/responses";
+import {Http} from "@angular/http";
+import {Tag} from "../shared/tag.model";
 
 @Component({
     selector: 'app-image-form',
@@ -17,6 +19,15 @@ export class ImageFormComponent implements OnInit, OnDestroy, OnChanges {
 
     formModel: any;
     images: any[] = [];
+
+    public requestAutocompleteItems = (query: string): Observable<Tag[]> => {
+        return this.http
+            .get(`http://localhost:1234/tags`)
+            .map((data) => {
+                let response: TagsGetResponse = data.json();
+                return response.tags;
+            });
+    };
 
     isTimePeriod: boolean = false;
     isSavingInProgress: boolean = false;
@@ -33,7 +44,7 @@ export class ImageFormComponent implements OnInit, OnDestroy, OnChanges {
         toYear: undefined
     };
 
-    constructor(private store: Store<AppState>, private imageService: ImageService) {
+    constructor(private http: Http, private store: Store<AppState>, private imageService: ImageService) {
     }
 
     ngOnInit() {

@@ -1,5 +1,6 @@
 import {Image} from "./image.model";
 import {File} from "../shared/file.model";
+import {Tag} from "./tag.model";
 
 export interface ImageGetResponse {
     image: Image;
@@ -39,4 +40,8 @@ export interface FilesGetResponse {
 export interface FilesGetErrorResponse {
     success: boolean;
     error: string;
+}
+
+export interface TagsGetResponse {
+    tags: Tag[];
 }

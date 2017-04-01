@@ -34,6 +34,14 @@
         </div>
     </div>
     <div class="form-group row">
+        <label for="tags" class="col-2 col-form-label">Tags</label>
+        <div class="col-10">
+            <tag-input id="tags" name="tags" [ngModel]="" [identifyBy]="'id'" [displayBy]="'name'">
+                <tag-input-dropdown [autocompleteObservable]='requestAutocompleteItems' [identifyBy]="'id'" [displayBy]="'name'"></tag-input-dropdown>
+            </tag-input>
+        </div>
+    </div>
+    <div class="form-group row">
         <div class="offset-2 col-10">
             <button type="submit" class="btn btn-primary">Speichern</button>
         </div>
