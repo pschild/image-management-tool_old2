@@ -1,73 +1,51 @@
-const dbService = require('./db.service.js');
-var db = dbService.getDatabaseInstance();
+var Model = require('./../models/Tag');
 
 var TagService = function () {
 };
 
 TagService.prototype.findAll = function () {
-    return new Promise((resolve, reject) => {
-        db.all("SELECT * FROM tag", function (err, rows) {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(rows);
-            }
-        });
-    });
+    return Model.Tag
+        .forge()
+        .fetchAll();
 };
 
 TagService.prototype.findById = function (id) {
-    return new Promise((resolve, reject) => {
-        db.get("SELECT * FROM tag WHERE id=?", +id, function (err, row) {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(row);
-            }
-        });
-    });
+    return Model.Tag
+        .forge()
+        .where('id', id)
+        .fetch();
 };
 
 TagService.prototype.create = function (data) {
-    return new Promise((resolve, reject) => {
-        db.run("INSERT INTO tag (name) VALUES (?)", data.name, function (err) {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(Object.assign({}, data, {id: this.lastID}));
-            }
-        });
-    });
+    return Model.Tag.forge({
+        name: data.name
+    }).save();
 };
 
 TagService.prototype.update = function (id, data) {
-    return new Promise((resolve, reject) => {
-        db.run("UPDATE tag SET name=? WHERE id=?", [data.name, +id], (err) => {
-            if (err) {
-                reject(err);
-            } else {
-                this.findById(id)
-                    .then((row) => {
-                        resolve(row);
-                    })
-                    .catch(() => {
-                        reject(err);
-                    });
-            }
+    return Model.Tag
+        .forge({id: id})
+        .fetch({require: true})
+        .then((tag) => {
+            tag.save({
+                name: data.name || tag.get('name')
+            });
+        })
+        .then(() => {
+            return this.findById(id);
         });
-    });
 };
 
 TagService.prototype.removeById = function (id) {
-    return new Promise((resolve, reject) => {
-        db.run("DELETE FROM tag WHERE id=?", +id, (err) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve({removedId: +id});
-            }
+    return Model.Tag
+        .forge({id: id})
+        .fetch({require: true})
+        .then((tag) => {
+            return tag.destroy();
+        })
+        .then(() => {
+            return {removedId: +id};
         });
-    });
 };
 
 exports = module.exports = new TagService();

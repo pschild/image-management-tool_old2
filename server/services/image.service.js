@@ -1,125 +1,89 @@
-const dbService = require('./db.service.js');
-var db = dbService.getDatabaseInstance();
+var Model = require('./../models/Image');
 
 var ImageService = function () {
 };
 
 ImageService.prototype.findAll = function () {
-    return new Promise((resolve, reject) => {
-        db.all("SELECT * FROM image", function (err, rows) {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(rows);
-            }
-        });
-    });
+    return Model.Images
+        .forge()
+        .fetch({ withRelated: 'tags' });
 };
 
 ImageService.prototype.findById = function (id) {
-    return new Promise((resolve, reject) => {
-        db.get("SELECT * FROM image WHERE id=?", +id, function (err, row) {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(row);
-            }
-        });
-    });
+    return Model.Image
+        .forge()
+        .where('id', id)
+        .fetch({ withRelated: 'tags' });
 };
 
 ImageService.prototype.findByPathAndName = function (path, name) {
-    return new Promise((resolve, reject) => {
-        db.get("SELECT * FROM image WHERE path=? AND name=?", [decodeURI(path), name], function (err, row) {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(row);
-            }
-        });
-    });
+    return Model.Images
+        .forge()
+        .query('where', {path: decodeURI(path), name: name})
+        .fetch({ withRelated: 'tags' });
 };
 
 ImageService.prototype.findByPathAndNames = function (path, imageNames) {
-    return new Promise((resolve, reject) => {
-        let inStatement = '"' + imageNames.join('","') + '"';
-        db.all("SELECT * FROM image WHERE path=? AND name IN (" + inStatement + ")", [decodeURI(path)], function (err, rows) {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(rows);
-            }
-        });
-    });
+    return Model.Images
+        .forge()
+        .query(function(qb) {
+            qb.select('*');
+            qb.where(function () {
+                this.where('path', decodeURI(path));
+            });
+            qb.andWhere(function () {
+                this.where('name', 'in', imageNames);
+            });
+        })
+        .fetch({ withRelated: 'tags' });
 };
 
 ImageService.prototype.create = function (data) {
-    let placeholders = {
-        $name: data.name,
-        $path: decodeURI(data.path),
-        $comment: data.comment,
-        $fromDay: data.fromDay,
-        $fromMonth: data.fromMonth,
-        $fromYear: data.fromYear,
-        $toDay: data.toDay,
-        $toMonth: data.toMonth,
-        $toYear: data.toYear
-    };
-    
-    return new Promise((resolve, reject) => {
-        db.run("INSERT INTO image (name, path, comment, fromDay, fromMonth, fromYear, toDay, toMonth, toYear) " +
-            "VALUES ($name, $path, $comment, $fromDay, $fromMonth, $fromYear, $toDay, $toMonth, $toYear)", placeholders, function (err) {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(Object.assign({}, data, {id: this.lastID}));
-            }
-        });
-    });
+    return Model.Image.forge({
+        name: data.name,
+        path: decodeURI(data.path),
+        comment: data.comment,
+        fromDay: data.fromDay,
+        fromMonth: data.fromMonth,
+        fromYear: data.fromYear,
+        toDay: data.toDay,
+        toMonth: data.toMonth,
+        toYear: data.toYear
+    }).save();
 };
 
 ImageService.prototype.update = function (id, data) {
-    let placeholders = {
-        $id: id,
-        $name: data.name,
-        $path: decodeURI(data.path),
-        $comment: data.comment,
-        $fromDay: data.fromDay,
-        $fromMonth: data.fromMonth,
-        $fromYear: data.fromYear,
-        $toDay: data.toDay,
-        $toMonth: data.toMonth,
-        $toYear: data.toYear
-    };
-
-    return new Promise((resolve, reject) => {
-        db.run("UPDATE image SET name=$name, path=$path, comment=$comment, fromDay=$fromDay, fromMonth=$fromMonth, fromYear=$fromYear, toDay=$toDay, toMonth=$toMonth, toYear=$toYear " +
-            "WHERE id=$id", placeholders, (err) => {
-            if (err) {
-                reject(err);
-            } else {
-                this.findById(id)
-                    .then((row) => {
-                        resolve(row);
-                    })
-                    .catch(() => {
-                        reject(err);
-                    });
-            }
+    return Model.Image
+        .forge({id: id})
+        .fetch({require: true})
+        .then((image) => {
+            image.save({
+                name: data.name || image.get('name'),
+                path: data.path ? decodeURI(data.path) : image.get('path'),
+                comment: data.comment || image.get('comment'),
+                fromDay: data.fromDay || image.get('fromDay'),
+                fromMonth: data.fromMonth || image.get('fromMonth'),
+                fromYear: data.fromYear || image.get('fromYear'),
+                toDay: data.toDay || image.get('toDay'),
+                toMonth: data.toMonth || image.get('toMonth'),
+                toYear: data.toYear || image.get('toYear')
+            });
+        })
+        .then(() => {
+            return this.findById(id);
         });
-    });
 };
 
 ImageService.prototype.removeById = function (id) {
-    return new Promise((resolve, reject) => {
-        db.run("DELETE FROM image WHERE id=?", +id, (err) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve({removedId: +id});
-            }
+    return Model.Image
+        .forge({id: id})
+        .fetch({require: true})
+        .then((image) => {
+            return image.destroy();
+        })
+        .then(() => {
+            return {removedId: +id};
         });
-    });
 };
 
 exports = module.exports = new ImageService();
