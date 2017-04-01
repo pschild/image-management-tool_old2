@@ -7,7 +7,7 @@ import * as actions from '../shared/actions';
 import {
     FilesGetResponse, FilesGetErrorResponse,
     ImagesGetResponse, ImagesGetErrorResponse, ImagePutResponse, ImagePutErrorResponse, ImagePostResponse,
-    ImagePostErrorResponse, TagsGetResponse, TagsGetErrorResponse
+    ImagePostErrorResponse, TagsGetResponse, TagsGetErrorResponse, TagPostResponse, TagPostErrorResponse
 } from "./responses";
 import {ImageService} from "../image/image.service";
 import {TagService} from "../tag/tag.service";
@@ -79,6 +79,19 @@ export class AppEffects {
                 })
                 .catch((response: TagsGetErrorResponse) => {
                     return Observable.of(actions.getTagsError(response.error));
+                })
+        );
+
+    @Effect() createTagEffects$ = this.actions$
+        .ofType(actions.CREATE_TAG)
+        .map((action) => action.payload)
+        .mergeMap(
+            (payload) => this.tagService.createTag(payload)
+                .map((result: TagPostResponse) => {
+                    return actions.createTagSuccess(result.tag);
+                })
+                .catch((response: TagPostErrorResponse) => {
+                    return Observable.of(actions.createTagError(response.error));
                 })
         );
 }

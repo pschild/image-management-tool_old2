@@ -50,3 +50,12 @@ export interface TagsGetErrorResponse {
     success: boolean;
     error: string;
 }
+
+export interface TagPostResponse {
+    tag: Tag;
+}
+
+export interface TagPostErrorResponse {
+    success: boolean;
+    error: string;
+}

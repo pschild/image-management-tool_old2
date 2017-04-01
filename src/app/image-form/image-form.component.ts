@@ -7,7 +7,7 @@ import {ImageService} from "../image/image.service";
 import {ImageGetResponse} from "../shared/responses";
 import {Http} from "@angular/http";
 import {Tag} from "../shared/tag.model";
-import {getTags} from "../tag/tag.actions";
+import {createTag, getTags} from "../tag/tag.actions";
 
 @Component({
     selector: 'app-image-form',
@@ -84,6 +84,13 @@ export class ImageFormComponent implements OnInit, OnDestroy, OnChanges {
                 this.tagsSuggestions = tagsState.tags;
             })
         );
+    }
+
+    onTagAdded(addedTag) {
+        let foundTag = this.tagsSuggestions.filter(tag => tag.name === addedTag.name).length > 0;
+        if (!foundTag) {
+            this.store.dispatch(createTag(addedTag));
+        }
     }
 
     ngOnChanges(changes: SimpleChanges) {

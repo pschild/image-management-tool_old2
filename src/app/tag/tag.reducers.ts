@@ -31,6 +31,18 @@ export const TagsReducer: ActionReducer<TagsState> = (state = initialTagsState, 
             console.error(`Error while getting tags: ${action.payload}`);
             return state;
 
+        case TagActions.CREATE_TAG:
+            return state;
+
+        case TagActions.CREATE_TAG_SUCCESS:
+            newState = Object.assign({}, state);
+            newState.tags.push(action.payload);
+            return state;
+
+        case TagActions.CREATE_TAG_ERROR:
+            console.error(`Error while adding tag: ${action.payload}`);
+            return state;
+
         default:
             return state;
     }
