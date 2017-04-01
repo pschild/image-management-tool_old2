@@ -13,11 +13,11 @@ function run() {
     require('./server/server')(PORT);
 
     mainWindow = new BrowserWindow({
-        width: 1280,
-        height: 720,
+        width: 1600,
+        height: 800,
         autoHideMenuBar: true,
         useContentSize: true,
-        resizable: false,
+        resizable: true,
         webPreferences: {
             webSecurity: false // for showing local images
         }
