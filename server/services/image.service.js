@@ -49,7 +49,15 @@ ImageService.prototype.create = function (data) {
         toDay: data.toDay,
         toMonth: data.toMonth,
         toYear: data.toYear
-    }).save();
+    })
+        .save()
+        .then((image) => {
+            image.tags().attach(data.tags.map(tag => tag.id));
+            return image;
+        })
+        .then((image) => {
+            return this.findById(image.id);
+        });
 };
 
 ImageService.prototype.update = function (id, data) {
@@ -57,7 +65,7 @@ ImageService.prototype.update = function (id, data) {
         .forge({id: id})
         .fetch({require: true})
         .then((image) => {
-            image.save({
+            return image.save({
                 name: data.name || image.get('name'),
                 path: data.path ? decodeURI(data.path) : image.get('path'),
                 comment: data.comment || image.get('comment'),
@@ -69,8 +77,15 @@ ImageService.prototype.update = function (id, data) {
                 toYear: data.toYear || image.get('toYear')
             });
         })
-        .then(() => {
-            return this.findById(id);
+        .then((image) => {
+            // detach everything ...
+            image.related('tags').detach();
+            // ... and attach the given:
+            image.tags().attach(data.tags.map(tag => tag.id));
+            return image;
+        })
+        .then((image) => {
+            return this.findById(image.id);
         });
 };
 
