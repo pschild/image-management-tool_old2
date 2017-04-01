@@ -45,3 +45,8 @@ export interface FilesGetErrorResponse {
 export interface TagsGetResponse {
     tags: Tag[];
 }
+
+export interface TagsGetErrorResponse {
+    success: boolean;
+    error: string;
+}

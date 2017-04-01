@@ -4,6 +4,7 @@ import {FormsModule} from "@angular/forms";
 import {EditorComponent} from "./editor.component";
 import {ImageFormComponent} from "../image-form/image-form.component";
 import {TagInputModule} from "ng2-tag-input";
+import {TagService} from "../tag/tag.service";
 
 @NgModule({
     imports: [
@@ -15,7 +16,7 @@ import {TagInputModule} from "ng2-tag-input";
         EditorComponent,
         ImageFormComponent
     ],
-    providers: []
+    providers: [TagService]
 })
 export class EditorModule {
 }

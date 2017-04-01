@@ -7,14 +7,15 @@ import * as actions from '../shared/actions';
 import {
     FilesGetResponse, FilesGetErrorResponse,
     ImagesGetResponse, ImagesGetErrorResponse, ImagePutResponse, ImagePutErrorResponse, ImagePostResponse,
-    ImagePostErrorResponse
+    ImagePostErrorResponse, TagsGetResponse, TagsGetErrorResponse
 } from "./responses";
 import {ImageService} from "../image/image.service";
+import {TagService} from "../tag/tag.service";
 
 @Injectable()
 export class AppEffects {
 
-    constructor(private actions$: Actions, private explorerService: ExplorerService, private imageService: ImageService) { }
+    constructor(private actions$: Actions, private explorerService: ExplorerService, private imageService: ImageService, private tagService: TagService) { }
 
     @Effect() getFilesEffects$ = this.actions$
         .ofType(actions.GET_FILES)
@@ -65,6 +66,19 @@ export class AppEffects {
                 })
                 .catch((response: ImagePutErrorResponse) => {
                     return Observable.of(actions.saveImageError(response.error));
+                })
+        );
+
+    @Effect() getTagsEffects$ = this.actions$
+        .ofType(actions.GET_TAGS)
+        .map((action) => action.payload)
+        .mergeMap(
+            (payload) => this.tagService.loadTags()
+                .map((result: TagsGetResponse) => {
+                    return actions.getTagsSuccess(result.tags);
+                })
+                .catch((response: TagsGetErrorResponse) => {
+                    return Observable.of(actions.getTagsError(response.error));
                 })
         );
 }
