@@ -20,7 +20,7 @@ ImageService.prototype.findByPathAndName = function (path, name) {
     return Model.Images
         .forge()
         .query('where', {path: decodeURI(path), name: name})
-        .fetch({ withRelated: 'tags' });
+        .fetchOne({ withRelated: 'tags' });
 };
 
 ImageService.prototype.findByPathAndNames = function (path, imageNames) {
