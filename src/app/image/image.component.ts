@@ -20,17 +20,25 @@ export class ImageComponent implements OnInit, OnDestroy {
     @Input() path: string;
     @Input() fileName: string;
 
-    subscription: Subscription;
+    subscriptions: Subscription[] = [];
     trustedImagePath: SafeStyle;
+    selected: boolean;
 
     constructor(private store: Store<AppState>, private sanitizer: DomSanitizer, private router: Router) {
     }
 
     ngOnInit() {
-        this.subscription = this.store.select(state => state.imagesState)
+        this.subscriptions.push(this.store.select(state => state.imagesState)
             .subscribe((imagesState) => {
                 this.image = imagesState.images.find(image => image && image.name === this.fileName);
-            });
+            })
+        );
+
+        this.subscriptions.push(this.store.select(state => state.editorState)
+            .subscribe((editorState) => {
+                this.selected = editorState.selection.filter((pathAndFileName) => pathAndFileName.path === this.path && pathAndFileName.fileName === this.fileName).length > 0
+            })
+        );
 
         this.trustedImagePath = this.sanitizePath();
     }
@@ -47,7 +55,9 @@ export class ImageComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.subscription.unsubscribe();
+        this.subscriptions.forEach((subscription: Subscription) => {
+            subscription.unsubscribe();
+        });
     }
 
     select() {

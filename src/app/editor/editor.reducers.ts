@@ -16,7 +16,9 @@ export const EditorReducer: ActionReducer<EditorState> = (state = initialEditorS
     switch (action.type) {
         case EditorActions.ADD_TO_SELECTION:
             newState = Object.assign({}, state);
-            newState.selection.push(action.payload);
+            if (!newState.selection.find(item => item.fileName === action.payload.fileName)) {
+                newState.selection.push(action.payload);
+            }
             return newState;
 
         case EditorActions.REMOVE_FROM_SELECTION:

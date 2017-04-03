@@ -7,6 +7,7 @@ import {Subscription} from "rxjs";
 import {getImages} from "../image/image.actions";
 import {File} from "../shared/file.model";
 import {Router} from "@angular/router";
+import {addToBulkEditList, clearSelection} from "../editor/editor.actions";
 
 @Component({
     selector: 'app-explorer',
@@ -20,6 +21,7 @@ export class ExplorerComponent implements OnInit, OnDestroy {
     isFileListLoading: boolean = false;
     showBulkEditButton: boolean = false;
     bulkEditCount: number;
+    imageCount: number;
 
     subscriptions: Subscription[] = [];
 
@@ -30,6 +32,7 @@ export class ExplorerComponent implements OnInit, OnDestroy {
         this.subscriptions.push(this.store.select(state => state.explorerState)
             .subscribe((explorerState) => {
                 this.files = explorerState.fileList.filter((file: File) => { return file.isDirectory || file.isImage });
+                this.imageCount = this.files.filter((file: File) => file.isImage).length;
                 this.currentPath = explorerState.currentDirectory;
                 this.isFileListLoading = explorerState.isFileListLoading;
             }
@@ -71,6 +74,17 @@ export class ExplorerComponent implements OnInit, OnDestroy {
 
     handleBulkEditButtonClicked() {
         this.router.navigate(['editor']);
+    }
+
+    handleToggleAllButtonClicked() {
+        let allSelected = this.imageCount === this.bulkEditCount;
+        this.files.filter((file: File) => file.isFile && file.isImage).forEach((file: File) => {
+            if (!allSelected) {
+                this.store.dispatch(addToBulkEditList(file.path, file.fileName));
+            } else {
+                this.store.dispatch(clearSelection());
+            }
+        });
     }
 
     openPreviousDirectory() {
