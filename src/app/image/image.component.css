@@ -2,7 +2,8 @@
     width: 100%;
     height: 90%;
     background-size: cover;
-    background: no-repeat 50%;
+    background-repeat: no-repeat;
+    background-position: 50%;
 }
 
 .badge {
