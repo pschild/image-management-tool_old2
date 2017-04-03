@@ -8,6 +8,7 @@ import {ImageGetResponse, TagPostResponse} from "../shared/responses";
 import {Tag} from "../shared/tag.model";
 import {createTagError, createTagSuccess, getTags} from "../tag/tag.actions";
 import {TagService} from "../tag/tag.service";
+import {CommonValuesHelper} from "./common-values-helper/common-values-helper";
 
 @Component({
     selector: 'app-image-form',
@@ -39,7 +40,7 @@ export class ImageFormComponent implements OnInit, OnDestroy, OnChanges {
         tags: []
     };
 
-    constructor(private store: Store<AppState>, private imageService: ImageService, private tagService: TagService) {
+    constructor(private store: Store<AppState>, private commonValuesHelper: CommonValuesHelper, private imageService: ImageService, private tagService: TagService) {
     }
 
     ngOnInit() {
@@ -73,7 +74,7 @@ export class ImageFormComponent implements OnInit, OnDestroy, OnChanges {
                     this.images = responses.filter(response => response.image).map((response: ImageGetResponse) => {
                         return response.image;
                     });
-                    this.formModel = Object.assign({}, this.initialValues, this.getCommonValues());
+                    this.formModel = Object.assign({}, this.initialValues, this.commonValuesHelper.getCommonValues(this.initialValues, this.images));
                     this.isTimePeriod = this.checkForTimePeriod();
                 }));
         }
@@ -121,59 +122,12 @@ export class ImageFormComponent implements OnInit, OnDestroy, OnChanges {
         this.images = remainingImages;
 
         if (remainingImages.length > 0) {
-            this.formModel = Object.assign({}, this.initialValues, this.getCommonValues());
+            this.formModel = Object.assign({}, this.initialValues, this.commonValuesHelper.getCommonValues(this.initialValues, this.images));
         } else {
             this.formModel = this.initialValues;
         }
 
         this.isTimePeriod = this.checkForTimePeriod();
-    }
-
-    getCommonValues() {
-        let commonValues = {};
-        Object.keys(this.initialValues).forEach((key) => {
-            let firstValue = this.images[0][key];
-            let differenceFound = false;
-
-            for (let i = 1; i < this.images.length; i++) {
-                let image = this.images[i];
-                if (Array.isArray(firstValue)) {
-                    console.log('array', firstValue);
-                    if (Array.isArray(image[key])) {
-                        if (image[key].length !== firstValue.length) {
-                            console.log('two arrays, different lengths');
-                            differenceFound = true;
-                            break;
-                        } else {
-                            console.log('same lengths');
-                            firstValue.forEach((firstValueItem) => {
-                                if (image[key].filter((imageItem) => firstValueItem.id === imageItem.id).length === 0) {
-                                    differenceFound = true;
-                                    console.log(`entry ${firstValueItem} not found => different`);
-                                    return;
-                                }
-                            });
-                            console.log('same arrays');
-                        }
-                    } else {
-                        console.log('one array, other is no array');
-                        differenceFound = true;
-                        break;
-                    }
-                } else {
-                    if (image[key] !== firstValue) {
-                        differenceFound = true;
-                        break;
-                    }
-                }
-            }
-
-            if (!differenceFound) {
-                commonValues[key] = firstValue;
-            }
-        });
-
-        return commonValues;
     }
 
     checkForTimePeriod() {
