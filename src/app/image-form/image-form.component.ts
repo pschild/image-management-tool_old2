@@ -23,6 +23,7 @@ export class ImageFormComponent implements OnInit, OnDestroy, OnChanges {
     images: any[] = [];
 
     tagsSuggestions: Tag[];
+    removedTags: any[] = [];
 
     isTimePeriod: boolean = false;
     isSavingInProgress: boolean = false;
@@ -108,6 +109,13 @@ export class ImageFormComponent implements OnInit, OnDestroy, OnChanges {
                     }
                 );
         }
+
+        // remove added tag from removed tags
+        this.removedTags = this.removedTags.filter((tag) => tag.id !== addedTag.id);
+    }
+
+    onTagRemoved(removedTag) {
+        this.removedTags.push(removedTag);
     }
 
     ngOnChanges(changes: SimpleChanges) {
@@ -144,7 +152,7 @@ export class ImageFormComponent implements OnInit, OnDestroy, OnChanges {
         this.items.forEach((item: any) => {
             let relatedImage = this.images.filter(image => image.path === item.path && image.name === item.fileName)[0];
             if (relatedImage) {
-                this.store.dispatch(updateImage(Object.assign(relatedImage, this.formModel)));
+                this.store.dispatch(updateImage(Object.assign(relatedImage, this.formModel, { removedTags: this.removedTags })));
             } else {
                 this.store.dispatch(createImage(Object.assign(item, this.formModel, { name: item.fileName })));
             }

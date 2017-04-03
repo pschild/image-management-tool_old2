@@ -78,9 +78,12 @@ ImageService.prototype.update = function (id, data) {
             });
         })
         .then((image) => {
-            // detach everything ...
-            image.related('tags').detach();
-            // ... and attach the given:
+            // detach removed tags
+            image.tags().detach(data.removedTags.map(tag => tag.id));
+            return image;
+        })
+        .then((image) => {
+            // attach added tags
             image.tags().attach(data.tags.map(tag => tag.id));
             return image;
         })
