@@ -1,0 +1,4 @@
+<div class="action-panel">
+    <button class="btn btn-primary" *ngIf="imageCount > 0" (click)="handleToggleAllButtonClicked()">{{imageCount > bulkEditCount ? 'alle' : 'keine'}} auswählen</button>
+    <button class="btn btn-primary" *ngIf="showBulkEditButton" (click)="handleBulkEditButtonClicked()">{{bulkEditCount}} Bilder editieren</button>
+</div>

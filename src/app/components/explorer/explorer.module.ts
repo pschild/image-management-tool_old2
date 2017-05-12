@@ -7,6 +7,7 @@ import {ExplorerService} from "../../services/explorer.service";
 import {LoadingSpinnerComponent} from "../loading-spinner/loading-spinner.component";
 import {ImageService} from "../../services/image.service";
 import {ContentListComponent} from './content-list/content-list.component';
+import { ExplorerActionsComponent } from './explorer-actions/explorer-actions.component';
 
 @NgModule({
     imports: [
@@ -17,7 +18,8 @@ import {ContentListComponent} from './content-list/content-list.component';
         ExplorerComponent,
         ImageComponent,
         LoadingSpinnerComponent,
-        ContentListComponent
+        ContentListComponent,
+        ExplorerActionsComponent
     ],
     providers: [ExplorerService, ImageService]
 })
