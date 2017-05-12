@@ -1,5 +1,5 @@
 import {Action} from "@ngrx/store";
-import {Image} from "../models/image.model";
+import {IImage} from "../models/image.model";
 
 export const ADD_TO_SELECTION = 'ADD_TO_SELECTION';
 export const REMOVE_FROM_SELECTION = 'REMOVE_FROM_SELECTION';
@@ -36,21 +36,21 @@ export function clearSelection(): Action {
     };
 }
 
-export function createImage(image: Image): Action {
+export function createImage(image: IImage): Action {
     return {
         type: CREATE_IMAGE,
         payload: image
     };
 }
 
-export function updateImage(image: Image): Action {
+export function updateImage(image: IImage): Action {
     return {
         type: UPDATE_IMAGE,
         payload: image
     };
 }
 
-export function saveImageSuccess(image: Image): Action {
+export function saveImageSuccess(image: IImage): Action {
     return {
         type: SAVE_IMAGE_SUCCESS,
         payload: image

@@ -5,7 +5,7 @@ import {AppState} from "../../shared/reducers";
 import {getFiles, changeDirectory} from "../../actions/explorer.actions";
 import {Subscription} from "rxjs";
 import {getImages} from "../../actions/image.actions";
-import {File} from "../../models/file.model";
+import {IFile} from "../../models/file.model";
 import {Router} from "@angular/router";
 import {addToBulkEditList, clearSelection} from "../../actions/editor.actions";
 
@@ -16,7 +16,7 @@ import {addToBulkEditList, clearSelection} from "../../actions/editor.actions";
 })
 export class ExplorerComponent implements OnInit, OnDestroy {
 
-    files = [];
+    files: IFile[] = [];
     currentPath;
     isFileListLoading: boolean = false;
     showBulkEditButton: boolean = false;
@@ -31,17 +31,17 @@ export class ExplorerComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.subscriptions.push(this.store.select(state => state.explorerState)
             .subscribe((explorerState) => {
-                this.files = explorerState.fileList.filter((file: File) => { return file.isDirectory || file.isImage });
-                this.imageCount = this.files.filter((file: File) => file.isImage).length;
+                this.files = explorerState.fileList.filter((file: IFile) => { return file.isDirectory || file.isImage });
+                this.imageCount = this.files.filter((file: IFile) => file.isImage).length;
                 this.currentPath = explorerState.currentDirectory;
                 this.isFileListLoading = explorerState.isFileListLoading;
             }
         ));
 
         this.subscriptions.push(this.store.select('explorerState', 'fileList')
-            .subscribe((fileList: File[]) => {
+            .subscribe((fileList: IFile[]) => {
                 if (fileList.length) {
-                    this.store.dispatch(getImages(this.currentPath, fileList.map((file: File) => { return file.fileName })));
+                    this.store.dispatch(getImages(this.currentPath, fileList.map((file: IFile) => { return file.fileName })));
                 }
             }
         ));
@@ -78,7 +78,7 @@ export class ExplorerComponent implements OnInit, OnDestroy {
 
     handleToggleAllButtonClicked() {
         let allSelected = this.imageCount === this.bulkEditCount;
-        this.files.filter((file: File) => file.isFile && file.isImage).forEach((file: File) => {
+        this.files.filter((file: IFile) => file.isFile && file.isImage).forEach((file: IFile) => {
             if (!allSelected) {
                 this.store.dispatch(addToBulkEditList(file.path, file.fileName));
             } else {

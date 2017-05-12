@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Http} from "@angular/http";
 import {Observable} from "rxjs";
 import {ImageGetResponse, ImagePostResponse, ImagePutResponse, ImagesGetResponse} from "../shared/responses";
-import {Image} from "../models/image.model";
+import {IImage} from "../models/image.model";
 
 const BASE_URL = 'http://localhost:1234';
 
@@ -24,7 +24,7 @@ export class ImageService {
         }).map(res => <ImagesGetResponse>res.json());
     }
 
-    create(image: Image): Observable<ImagePostResponse> {
+    create(image: IImage): Observable<ImagePostResponse> {
         return this.http.post(`${BASE_URL}/image`, image)
             .map(res => <ImagePostResponse>res.json());
     }

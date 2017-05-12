@@ -1,7 +1,7 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Store} from "@ngrx/store";
 import {AppState} from "../../shared/reducers";
-import {Image} from "../../models/image.model";
+import {IImage} from "../../models/image.model";
 import {Subscription} from "rxjs";
 import {DomSanitizer, SafeStyle} from '@angular/platform-browser';
 import {Router} from "@angular/router";
@@ -14,7 +14,7 @@ import {addToBulkEditList, clearSelection, removeFromBulkEditList} from "../../a
 })
 export class ImageComponent implements OnInit, OnDestroy {
 
-    image: Image;
+    image: IImage;
 
     @Input() fullPath: string;
     @Input() path: string;

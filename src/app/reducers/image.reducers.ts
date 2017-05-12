@@ -1,9 +1,9 @@
 import * as ImagesAction from '../actions/image.actions';
 import {ActionReducer, Action} from "@ngrx/store";
-import {Image} from "../models/image.model";
+import {IImage} from "../models/image.model";
 
 export interface ImagesState {
-    images: Image[];
+    images: IImage[];
 }
 
 const initialImagesState: ImagesState = {
@@ -18,7 +18,7 @@ export const ImagesReducer: ActionReducer<ImagesState> = (state = initialImagesS
 
         case ImagesAction.GET_IMAGES_SUCCESS:
             newState = Object.assign({}, state);
-            newState.images = action.payload;
+            newState.images = action.payload || [];
             return newState;
 
         case ImagesAction.GET_IMAGES_ERROR:

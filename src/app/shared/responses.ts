@@ -1,17 +1,17 @@
-import {Image} from "../models/image.model";
-import {File} from "../models/file.model";
-import {Tag} from "../models/tag.model";
+import {IImage} from "../models/image.model";
+import {IFile} from "../models/file.model";
+import {ITag} from "../models/tag.model";
 
 export interface ImageGetResponse {
-    image: Image;
+    image: IImage;
 }
 
 export interface ImagePutResponse {
-    image: Image;
+    image: IImage;
 }
 
 export interface ImagePostResponse {
-    image: Image;
+    image: IImage;
 }
 
 export interface ImagePutErrorResponse {
@@ -25,7 +25,7 @@ export interface ImagePostErrorResponse {
 }
 
 export interface ImagesGetResponse {
-    images: Image[];
+    images: IImage[];
 }
 
 export interface ImagesGetErrorResponse {
@@ -34,7 +34,7 @@ export interface ImagesGetErrorResponse {
 }
 
 export interface FilesGetResponse {
-    files: File[];
+    files: IFile[];
 }
 
 export interface FilesGetErrorResponse {
@@ -43,7 +43,7 @@ export interface FilesGetErrorResponse {
 }
 
 export interface TagsGetResponse {
-    tags: Tag[];
+    tags: ITag[];
 }
 
 export interface TagsGetErrorResponse {
@@ -52,7 +52,7 @@ export interface TagsGetErrorResponse {
 }
 
 export interface TagPostResponse {
-    tag: Tag;
+    tag: ITag;
 }
 
 export interface TagPostErrorResponse {

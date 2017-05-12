@@ -1,5 +1,5 @@
 import {Action} from '@ngrx/store';
-import {Tag} from "../models/tag.model";
+import {ITag} from "../models/tag.model";
 
 export const GET_TAGS = 'GET_TAGS';
 export const GET_TAGS_SUCCESS = 'GET_TAGS_SUCCESS';
@@ -14,7 +14,7 @@ export function getTags(): Action {
     };
 }
 
-export function getTagsSuccess(tagList: Tag[]): Action {
+export function getTagsSuccess(tagList: ITag[]): Action {
     return {
         type: GET_TAGS_SUCCESS,
         payload: tagList
@@ -35,7 +35,7 @@ export function createTag(data: any): Action {
     };
 }
 
-export function createTagSuccess(tag: Tag): Action {
+export function createTagSuccess(tag: ITag): Action {
     return {
         type: CREATE_TAG_SUCCESS,
         payload: tag

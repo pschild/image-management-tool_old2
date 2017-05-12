@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import {Image} from "../models/image.model";
+import {IImage} from "../models/image.model";
 
 export const GET_IMAGES = 'GET_IMAGES';
 export const GET_IMAGES_SUCCESS = 'GET_IMAGES_SUCCESS';
@@ -15,7 +15,7 @@ export function getImages(path: string, names: string[]): Action {
     };
 }
 
-export function getImagesSuccess(images: Image[]): Action {
+export function getImagesSuccess(images: IImage[]): Action {
     return {
         type: GET_IMAGES_SUCCESS,
         payload: images

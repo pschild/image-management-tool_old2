@@ -1,9 +1,9 @@
 import * as TagActions from '../actions/tag.actions';
 import {ActionReducer, Action} from "@ngrx/store";
-import {Tag} from "../models/tag.model";
+import {ITag} from "../models/tag.model";
 
 export interface TagsState {
-    tags: Tag[];
+    tags: ITag[];
     isLoading: boolean;
 }
 

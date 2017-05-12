@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import {File} from "../models/file.model";
+import {IFile} from "../models/file.model";
 
 export const GET_FILES = 'GET_FILES';
 export const GET_FILES_SUCCESS = 'GET_FILES_SUCCESS';
@@ -13,7 +13,7 @@ export function getFiles(path: string): Action {
     };
 }
 
-export function getFilesSuccess(fileList: File[]): Action {
+export function getFilesSuccess(fileList: IFile[]): Action {
     return {
         type: GET_FILES_SUCCESS,
         payload: fileList

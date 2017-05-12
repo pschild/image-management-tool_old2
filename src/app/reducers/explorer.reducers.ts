@@ -1,10 +1,10 @@
 import * as ExplorerActions from '../actions/explorer.actions';
 import {ActionReducer, Action} from "@ngrx/store";
-import {File} from "../models/file.model";
+import {IFile} from "../models/file.model";
 
 export interface ExplorerState {
     currentDirectory: string,
-    fileList: File[];
+    fileList: IFile[];
     isFileListLoading: boolean;
 }
 
