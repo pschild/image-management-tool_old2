@@ -1,5 +1,5 @@
 import {Action} from '@ngrx/store';
-import {Tag} from "../shared/tag.model";
+import {Tag} from "../models/tag.model";
 
 export const GET_TAGS = 'GET_TAGS';
 export const GET_TAGS_SUCCESS = 'GET_TAGS_SUCCESS';

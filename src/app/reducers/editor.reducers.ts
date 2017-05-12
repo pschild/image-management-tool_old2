@@ -1,4 +1,4 @@
-import * as EditorActions from './editor.actions';
+import * as EditorActions from '../actions/editor.actions';
 import {Action, ActionReducer} from "@ngrx/store";
 
 export interface EditorState {

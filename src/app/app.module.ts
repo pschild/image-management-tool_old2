@@ -5,10 +5,10 @@ import {HttpModule} from '@angular/http';
 
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from "./app-routing.module";
-import {NavigationComponent} from './navigation/navigation.component';
-import {ImprintComponent} from './imprint/imprint.component';
-import {ExplorerModule} from "./explorer/explorer.module";
-import {EditorModule} from "./editor/editor.module";
+import {NavigationComponent} from './components/navigation/navigation.component';
+import {ImprintComponent} from './components/imprint/imprint.component';
+import {ExplorerModule} from "./components/explorer/explorer.module";
+import {EditorModule} from "./components/editor/editor.module";
 import {StoreModule} from "@ngrx/store";
 import {EffectsModule} from "@ngrx/effects";
 import {reducer} from "./shared/reducers";

@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import {Image} from "../shared/image.model";
+import {Image} from "../models/image.model";
 
 export const GET_IMAGES = 'GET_IMAGES';
 export const GET_IMAGES_SUCCESS = 'GET_IMAGES_SUCCESS';

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect} from '@ngrx/effects';
 import {Observable} from "rxjs";
-import {ExplorerService} from "../explorer/explorer.service";
+import {ExplorerService} from "../services/explorer.service";
 
 import * as actions from '../shared/actions';
 import {
@@ -9,8 +9,8 @@ import {
     ImagesGetResponse, ImagesGetErrorResponse, ImagePutResponse, ImagePutErrorResponse, ImagePostResponse,
     ImagePostErrorResponse, TagsGetResponse, TagsGetErrorResponse, TagPostResponse, TagPostErrorResponse
 } from "./responses";
-import {ImageService} from "../image/image.service";
-import {TagService} from "../tag/tag.service";
+import {ImageService} from "../services/image.service";
+import {TagService} from "../services/tag.service";
 
 @Injectable()
 export class AppEffects {

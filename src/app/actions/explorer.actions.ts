@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import {File} from "../shared/file.model";
+import {File} from "../models/file.model";
 
 export const GET_FILES = 'GET_FILES';
 export const GET_FILES_SUCCESS = 'GET_FILES_SUCCESS';

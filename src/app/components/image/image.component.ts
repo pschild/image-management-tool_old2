@@ -1,11 +1,11 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Store} from "@ngrx/store";
-import {AppState} from "../shared/reducers";
-import {Image} from "../shared/image.model";
+import {AppState} from "../../shared/reducers";
+import {Image} from "../../models/image.model";
 import {Subscription} from "rxjs";
 import {DomSanitizer, SafeStyle} from '@angular/platform-browser';
 import {Router} from "@angular/router";
-import {addToBulkEditList, clearSelection, removeFromBulkEditList} from "../editor/editor.actions";
+import {addToBulkEditList, clearSelection, removeFromBulkEditList} from "../../actions/editor.actions";
 
 @Component({
     selector: 'app-image',

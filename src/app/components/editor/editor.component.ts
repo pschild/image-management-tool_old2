@@ -1,8 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from "rxjs";
 import {Store} from "@ngrx/store";
-import {AppState} from "../shared/reducers";
-import {clearSelection, removeFromBulkEditList} from "./editor.actions";
+import {AppState} from "../../shared/reducers";
+import {clearSelection, removeFromBulkEditList} from "../../actions/editor.actions";
 
 @Component({
     selector: 'app-editor',

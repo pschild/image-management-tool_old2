@@ -1,8 +1,8 @@
 import {combineReducers} from '@ngrx/store';
-import * as fromExplorer from '../explorer/explorer.reducers';
-import * as fromEditor from '../editor/editor.reducers';
-import * as fromImages from '../image/image.reducers';
-import * as fromTags from '../tag/tag.reducers';
+import * as fromExplorer from '../reducers/explorer.reducers';
+import * as fromEditor from '../reducers/editor.reducers';
+import * as fromImages from '../reducers/image.reducers';
+import * as fromTags from '../reducers/tag.reducers';
 
 export interface AppState {
     explorerState: fromExplorer.ExplorerState;

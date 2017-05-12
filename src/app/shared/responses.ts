@@ -1,6 +1,6 @@
-import {Image} from "./image.model";
-import {File} from "../shared/file.model";
-import {Tag} from "./tag.model";
+import {Image} from "../models/image.model";
+import {File} from "../models/file.model";
+import {Tag} from "../models/tag.model";
 
 export interface ImageGetResponse {
     image: Image;

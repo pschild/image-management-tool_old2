@@ -3,9 +3,9 @@ import {CommonModule} from '@angular/common';
 import {FormsModule} from "@angular/forms";
 import {ExplorerComponent} from "./explorer.component";
 import {ImageComponent} from "../image/image.component";
-import {ExplorerService} from "./explorer.service";
+import {ExplorerService} from "../../services/explorer.service";
 import {LoadingSpinnerComponent} from "../loading-spinner/loading-spinner.component";
-import {ImageService} from "../image/image.service";
+import {ImageService} from "../../services/image.service";
 
 @NgModule({
     imports: [

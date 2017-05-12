@@ -1,6 +1,6 @@
-import * as ExplorerActions from './explorer.actions';
+import * as ExplorerActions from '../actions/explorer.actions';
 import {ActionReducer, Action} from "@ngrx/store";
-import {File} from "../shared/file.model";
+import {File} from "../models/file.model";
 
 export interface ExplorerState {
     currentDirectory: string,

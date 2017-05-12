@@ -1,13 +1,13 @@
 import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {Store} from "@ngrx/store";
-import {AppState} from "../shared/reducers";
-import {createImage, updateImage} from "../editor/editor.actions";
+import {AppState} from "../../shared/reducers";
+import {createImage, updateImage} from "../../actions/editor.actions";
 import {Observable, Subscription} from "rxjs";
-import {ImageService} from "../image/image.service";
-import {ImageGetResponse, TagPostResponse} from "../shared/responses";
-import {Tag} from "../shared/tag.model";
-import {createTagError, createTagSuccess, getTags} from "../tag/tag.actions";
-import {TagService} from "../tag/tag.service";
+import {ImageService} from "../../services/image.service";
+import {ImageGetResponse, TagPostResponse} from "../../shared/responses";
+import {Tag} from "../../models/tag.model";
+import {createTagError, createTagSuccess, getTags} from "../../actions/tag.actions";
+import {TagService} from "../../services/tag.service";
 import {CommonValuesHelper} from "./common-values-helper/common-values-helper";
 
 @Component({

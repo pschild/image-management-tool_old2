@@ -1,5 +1,5 @@
 import {ExplorerReducer} from "./explorer.reducers";
-import {changeDirectory} from "./explorer.actions";
+import {changeDirectory} from "../actions/explorer.actions";
 
 describe('ExplorerReducer', () => {
     it('should change the current directory', () => {

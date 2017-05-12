@@ -1,6 +1,6 @@
-import * as ImagesAction from './image.actions';
+import * as ImagesAction from '../actions/image.actions';
 import {ActionReducer, Action} from "@ngrx/store";
-import {Image} from "../shared/image.model";
+import {Image} from "../models/image.model";
 
 export interface ImagesState {
     images: Image[];

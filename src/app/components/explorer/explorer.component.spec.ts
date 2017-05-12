@@ -2,9 +2,9 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {ExplorerComponent} from './explorer.component';
 import {ImageComponent} from "../image/image.component";
-import {ExplorerService} from "./explorer.service";
+import {ExplorerService} from "../../services/explorer.service";
 import {StoreModule} from "@ngrx/store";
-import {reducer} from "../shared/reducers";
+import {reducer} from "../../shared/reducers";
 
 describe('ExplorerComponent', () => {
     let component: ExplorerComponent;

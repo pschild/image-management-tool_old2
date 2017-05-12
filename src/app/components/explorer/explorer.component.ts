@@ -1,13 +1,13 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import 'rxjs/add/operator/map';
 import {Store} from "@ngrx/store";
-import {AppState} from "../shared/reducers";
-import {getFiles, changeDirectory} from "./explorer.actions";
+import {AppState} from "../../shared/reducers";
+import {getFiles, changeDirectory} from "../../actions/explorer.actions";
 import {Subscription} from "rxjs";
-import {getImages} from "../image/image.actions";
-import {File} from "../shared/file.model";
+import {getImages} from "../../actions/image.actions";
+import {File} from "../../models/file.model";
 import {Router} from "@angular/router";
-import {addToBulkEditList, clearSelection} from "../editor/editor.actions";
+import {addToBulkEditList, clearSelection} from "../../actions/editor.actions";
 
 @Component({
     selector: 'app-explorer',

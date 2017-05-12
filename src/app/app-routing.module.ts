@@ -1,8 +1,8 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
-import {ExplorerComponent} from "./explorer/explorer.component";
-import {ImprintComponent} from "./imprint/imprint.component";
-import {EditorComponent} from "./editor/editor.component";
+import {ExplorerComponent} from "./components/explorer/explorer.component";
+import {ImprintComponent} from "./components/imprint/imprint.component";
+import {EditorComponent} from "./components/editor/editor.component";
 import {APP_BASE_HREF} from "@angular/common";
 
 const routes: Routes = [

@@ -1,5 +1,5 @@
 import {Action} from "@ngrx/store";
-import {Image} from "../shared/image.model";
+import {Image} from "../models/image.model";
 
 export const ADD_TO_SELECTION = 'ADD_TO_SELECTION';
 export const REMOVE_FROM_SELECTION = 'REMOVE_FROM_SELECTION';
