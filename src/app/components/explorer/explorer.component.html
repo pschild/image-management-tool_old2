@@ -11,20 +11,10 @@
     <app-loading-spinner></app-loading-spinner>
 </div>
 <div *ngIf="!isFileListLoading">
-    <div class="row">
-        <div class="col-3" *ngIf="currentPath">
-            <div class="folder-tile">
-                <a (click)="openPreviousDirectory()">&laquo; zurück</a>
-            </div>
-        </div>
-
-        <div *ngFor="let file of files" class="col-3">
-            <div *ngIf="file.isDirectory" class="folder-tile">
-                <a (click)="handleFolderClicked(file.fileName)">{{file.fileName}}</a>
-            </div>
-            <div *ngIf="file.isImage" class="image-tile">
-                <app-image [fullPath]="file.fullPath" [path]="file.path" [fileName]="file.fileName"></app-image>
-            </div>
-        </div>
-    </div>
+    <app-content-list
+            [currentPath]="currentPath"
+            [files]="files"
+            (openPreviousDirectoryEvent)="openPreviousDirectory()"
+            (folderClickedEvent)="handleFolderClicked($event)">
+    </app-content-list>
 </div>
