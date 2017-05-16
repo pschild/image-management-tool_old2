@@ -53,3 +53,7 @@ export const EditorReducer: ActionReducer<EditorState> = (state = initialEditorS
             return state;
     }
 };
+
+export const getSelection = (state: EditorState) => state.selection;
+
+export const isSavingInProgress = (state: EditorState) => state.isSavingInProgress;

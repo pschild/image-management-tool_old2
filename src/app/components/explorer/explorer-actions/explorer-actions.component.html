@@ -1,7 +1,7 @@
 <div class="fixed-bottom action-panel row">
-    <div class="col-6 d-flex align-items-center">{{imageCount}} Bild(er), {{bulkEditCount}} ausgewählt</div>
+    <div class="col-6 d-flex align-items-center">{{imageCount}} Bild(er), {{selection.length}} ausgewählt</div>
     <div class="col-6 d-flex justify-content-end">
-        <button class="btn btn-primary" *ngIf="showBulkEditButton" (click)="handleBulkEditButtonClicked()">{{bulkEditCount}} Bilder editieren</button>
-        <button class="btn btn-primary" *ngIf="imageCount > 0" (click)="handleToggleAllButtonClicked()">{{imageCount > bulkEditCount ? 'alle' : 'keine'}} auswählen</button>
+        <button class="btn btn-primary" *ngIf="selection.length > 1" (click)="handleBulkEditButtonClicked()">{{selection.length}} Bilder editieren</button>
+        <button class="btn btn-primary" *ngIf="imageCount > 0" (click)="handleToggleAllButtonClicked()">{{imageCount > selection.length ? 'alle' : 'keine'}} auswählen</button>
     </div>
 </div>

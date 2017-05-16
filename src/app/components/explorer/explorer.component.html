@@ -4,10 +4,10 @@
     </div>
 </div>
 
-<div *ngIf="isFileListLoading">
+<div *ngIf="isFileListLoading$ | async">
     <app-loading-spinner></app-loading-spinner>
 </div>
-<div *ngIf="!isFileListLoading">
+<div *ngIf="!(isFileListLoading$ | async)">
     <app-content-list
             [currentPath]="currentPath"
             [files]="files"
@@ -17,9 +17,9 @@
 </div>
 
 <app-explorer-actions
-        [imageCount]="imageCount"
-        [bulkEditCount]="bulkEditCount"
-        [showBulkEditButton]="showBulkEditButton"
+        [imageCount]="imageCount$ | async"
+        [selection]="selection$ | async"
         (startBulkEditEvent)="handleBulkEditButtonClicked()"
-        (toggleAllEvent)="handleToggleAllButtonClicked()">
+        (selectAllEvent)="selectAll()"
+        (clearSelectionEvent)="clearSelection()">
 </app-explorer-actions>

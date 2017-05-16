@@ -8,10 +8,10 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 export class ExplorerActionsComponent implements OnInit {
 
     @Input() imageCount: number;
-    @Input() showBulkEditButton: boolean;
-    @Input() bulkEditCount: number;
+    @Input() selection: any[];
 
-    @Output() toggleAllEvent = new EventEmitter();
+    @Output() selectAllEvent = new EventEmitter();
+    @Output() clearSelectionEvent = new EventEmitter();
     @Output() startBulkEditEvent = new EventEmitter();
 
     constructor() {
@@ -21,7 +21,11 @@ export class ExplorerActionsComponent implements OnInit {
     }
 
     handleToggleAllButtonClicked() {
-        this.toggleAllEvent.emit();
+        if (this.imageCount > this.selection.length) {
+            this.selectAllEvent.emit();
+        } else {
+            this.clearSelectionEvent.emit();
+        }
     }
 
     handleBulkEditButtonClicked() {

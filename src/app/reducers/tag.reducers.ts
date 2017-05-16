@@ -47,3 +47,7 @@ export const TagsReducer: ActionReducer<TagsState> = (state = initialTagsState, 
             return state;
     }
 };
+
+export const getTags = (state: TagsState) => state.tags;
+
+export const areTagsLoading = (state: TagsState) => state.isLoading;

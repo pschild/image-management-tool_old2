@@ -29,3 +29,5 @@ export const ImagesReducer: ActionReducer<ImagesState> = (state = initialImagesS
             return state;
     }
 };
+
+export const getImages = (state: ImagesState) => state.images;

@@ -1,13 +1,14 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import 'rxjs/add/operator/map';
 import {Store} from "@ngrx/store";
-import {AppState} from "../../shared/reducers";
+import * as fromRoot from "../../shared/reducers";
 import {getFiles, changeDirectory} from "../../actions/explorer.actions";
 import {Subscription} from "rxjs";
 import {getImages} from "../../actions/image.actions";
 import {IFile} from "../../models/file.model";
 import {Router} from "@angular/router";
 import {addToBulkEditList, clearSelection} from "../../actions/editor.actions";
+import {Observable} from "rxjs/Observable";
 
 @Component({
     selector: 'app-explorer',
@@ -18,23 +19,20 @@ export class ExplorerComponent implements OnInit, OnDestroy {
 
     files: IFile[] = [];
     currentPath;
-    isFileListLoading: boolean = false;
-    showBulkEditButton: boolean = false;
-    bulkEditCount: number;
-    imageCount: number;
+    selection$: Observable<any[]>;
+    imageCount$: Observable<number>;
+    isFileListLoading$: Observable<boolean>;
 
     subscriptions: Subscription[] = [];
 
-    constructor(private store: Store<AppState>, private router: Router) {
+    constructor(private store: Store<fromRoot.AppState>, private router: Router) {
     }
 
     ngOnInit() {
         this.subscriptions.push(this.store.select(state => state.explorerState)
             .subscribe((explorerState) => {
                 this.files = explorerState.fileList.filter((file: IFile) => { return file.isDirectory || file.isImage });
-                this.imageCount = this.files.filter((file: IFile) => file.isImage).length;
                 this.currentPath = explorerState.currentDirectory;
-                this.isFileListLoading = explorerState.isFileListLoading;
             }
         ));
 
@@ -46,12 +44,9 @@ export class ExplorerComponent implements OnInit, OnDestroy {
             }
         ));
 
-        this.subscriptions.push(this.store.select(state => state.editorState)
-            .subscribe((editorState) => {
-                this.showBulkEditButton = editorState.selection.length > 1;
-                this.bulkEditCount = editorState.selection.length;
-            }
-        ));
+        this.imageCount$ = this.store.select(fromRoot.getImageCount);
+        this.selection$ = this.store.select(fromRoot.getSelection);
+        this.isFileListLoading$ = this.store.select(fromRoot.isFileListLoading);
 
         this.store.dispatch(changeDirectory(this.currentPath));
         this.getFilesOfCurrentDirectory();
@@ -76,15 +71,14 @@ export class ExplorerComponent implements OnInit, OnDestroy {
         this.router.navigate(['editor']);
     }
 
-    handleToggleAllButtonClicked() {
-        let allSelected = this.imageCount === this.bulkEditCount;
+    selectAll() {
         this.files.filter((file: IFile) => file.isFile && file.isImage).forEach((file: IFile) => {
-            if (!allSelected) {
-                this.store.dispatch(addToBulkEditList(file.path, file.fileName));
-            } else {
-                this.store.dispatch(clearSelection());
-            }
+            this.store.dispatch(addToBulkEditList(file.path, file.fileName));
         });
+    }
+
+    clearSelection() {
+        this.store.dispatch(clearSelection());
     }
 
     openPreviousDirectory() {

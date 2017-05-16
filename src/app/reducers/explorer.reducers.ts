@@ -42,3 +42,9 @@ export const ExplorerReducer: ActionReducer<ExplorerState> = (state = initialExp
             return state;
     }
 };
+
+export const getCurrentDirectory = (state: ExplorerState) => state.currentDirectory;
+
+export const getFileList = (state: ExplorerState) => state.fileList;
+
+export const isFileListLoading = (state: ExplorerState) => state.isFileListLoading;
