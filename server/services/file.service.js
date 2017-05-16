@@ -33,6 +33,7 @@ FileService.prototype.getFilesByPath = function (givenPath) {
                     let fullPath = path.join(givenPath, fileName);
                     try {
                         let stats = this.getStatOfFile(fullPath);
+                        // TODO: add ino, size and mtime.getTime() to identify moved files in the future
                         fileList.push({
                             fileName: fileName,
                             path: encodeURI(givenPath),
