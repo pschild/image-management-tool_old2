@@ -1,3 +1,7 @@
+.content-list {
+    margin-bottom: 60px;
+}
+
 .folder-tile, .image-tile {
     position: relative;
     height: 200px;

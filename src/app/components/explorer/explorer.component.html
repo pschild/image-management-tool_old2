@@ -4,14 +4,6 @@
     </div>
 </div>
 
-<app-explorer-actions
-    [imageCount]="imageCount"
-    [bulkEditCount]="bulkEditCount"
-    [showBulkEditButton]="showBulkEditButton"
-    (startBulkEditEvent)="handleBulkEditButtonClicked()"
-    (toggleAllEvent)="handleToggleAllButtonClicked()">
-</app-explorer-actions>
-
 <div *ngIf="isFileListLoading">
     <app-loading-spinner></app-loading-spinner>
 </div>
@@ -23,3 +15,11 @@
             (folderClickedEvent)="handleFolderClicked($event)">
     </app-content-list>
 </div>
+
+<app-explorer-actions
+        [imageCount]="imageCount"
+        [bulkEditCount]="bulkEditCount"
+        [showBulkEditButton]="showBulkEditButton"
+        (startBulkEditEvent)="handleBulkEditButtonClicked()"
+        (toggleAllEvent)="handleToggleAllButtonClicked()">
+</app-explorer-actions>
