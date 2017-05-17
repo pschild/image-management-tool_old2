@@ -5,7 +5,7 @@ import {IImage} from "../../models/image.model";
 import {Subscription} from "rxjs";
 import {DomSanitizer, SafeStyle} from '@angular/platform-browser';
 import {Router} from "@angular/router";
-import {addToBulkEditList, clearSelection, removeFromBulkEditList} from "../../actions/editor.actions";
+import {addToSelection, clearSelection, removeFromSelection} from "../../actions/editor.actions";
 
 @Component({
     selector: 'app-image',
@@ -61,11 +61,11 @@ export class ImageComponent implements OnInit, OnDestroy {
     }
 
     select() {
-        this.store.dispatch(addToBulkEditList(this.path, this.fileName));
+        this.store.dispatch(addToSelection(this.path, this.fileName));
     }
 
     deselect() {
-        this.store.dispatch(removeFromBulkEditList(this.path, this.fileName));
+        this.store.dispatch(removeFromSelection(this.path, this.fileName));
     }
 
 }

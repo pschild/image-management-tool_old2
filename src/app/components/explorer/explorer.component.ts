@@ -7,7 +7,7 @@ import {Subscription} from "rxjs";
 import {getImages} from "../../actions/image.actions";
 import {IFile} from "../../models/file.model";
 import {Router} from "@angular/router";
-import {addToBulkEditList, clearSelection} from "../../actions/editor.actions";
+import {addToSelection, clearSelection} from "../../actions/editor.actions";
 import {Observable} from "rxjs/Observable";
 
 @Component({
@@ -73,7 +73,7 @@ export class ExplorerComponent implements OnInit, OnDestroy {
 
     selectAll() {
         this.files.filter((file: IFile) => file.isFile && file.isImage).forEach((file: IFile) => {
-            this.store.dispatch(addToBulkEditList(file.path, file.fileName));
+            this.store.dispatch(addToSelection(file.path, file.fileName));
         });
     }
 

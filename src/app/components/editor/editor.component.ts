@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from "rxjs";
 import {Store} from "@ngrx/store";
 import {AppState} from "../../shared/reducers";
-import {clearSelection, removeFromBulkEditList} from "../../actions/editor.actions";
+import {clearSelection, removeFromSelection} from "../../actions/editor.actions";
 
 @Component({
     selector: 'app-editor',
@@ -36,7 +36,7 @@ export class EditorComponent implements OnInit, OnDestroy {
     }
 
     removeFromSelection(item) {
-        this.store.dispatch(removeFromBulkEditList(encodeURI(item.path), item.fileName));
+        this.store.dispatch(removeFromSelection(encodeURI(item.path), item.fileName));
     }
 
 }

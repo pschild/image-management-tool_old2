@@ -10,7 +10,7 @@ export const UPDATE_IMAGE = 'UPDATE_IMAGE';
 export const SAVE_IMAGE_SUCCESS = 'SAVE_IMAGE_SUCCESS';
 export const SAVE_IMAGE_ERROR = 'SAVE_IMAGE_ERROR';
 
-export function addToBulkEditList(path: string, fileName: string): Action {
+export function addToSelection(path: string, fileName: string): Action {
     return {
         type: ADD_TO_SELECTION,
         payload: {
@@ -20,7 +20,7 @@ export function addToBulkEditList(path: string, fileName: string): Action {
     };
 }
 
-export function removeFromBulkEditList(path: string, fileName: string): Action {
+export function removeFromSelection(path: string, fileName: string): Action {
     return {
         type: REMOVE_FROM_SELECTION,
         payload: {
