@@ -1,5 +1,5 @@
 <div class="content-list row">
-    <div class="col-3" *ngIf="currentPath">
+    <div class="col-3" *ngIf="currentDirectory">
         <div class="folder-tile">
             <a (click)="openPreviousDirectory()">&laquo; zurück</a>
         </div>
@@ -10,7 +10,7 @@
             <a (click)="handleFolderClicked(file.fileName)">{{file.fileName}}</a>
         </div>
         <div *ngIf="file.isImage" class="image-tile">
-            <app-image [fullPath]="file.fullPath" [path]="file.path" [fileName]="file.fileName"></app-image>
+            <app-image [file]="file"></app-image>
         </div>
     </div>
 </div>

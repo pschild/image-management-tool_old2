@@ -22,6 +22,11 @@ export const ExplorerReducer: ActionReducer<ExplorerState> = (state = initialExp
             newState.isFileListLoading = true;
             return newState;
 
+        case ExplorerActions.RESET_FILES:
+            newState = Object.assign({}, state);
+            newState.fileList = [];
+            return newState;
+
         case ExplorerActions.GET_FILES_SUCCESS:
             newState = Object.assign({}, state);
             newState.fileList = action.payload;

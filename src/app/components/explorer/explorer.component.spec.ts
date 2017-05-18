@@ -37,6 +37,6 @@ describe('ExplorerComponent', () => {
     it(`should have no current directory`, async(() => {
         const fixture = TestBed.createComponent(ExplorerComponent);
         const explorer = fixture.debugElement.componentInstance;
-        expect(explorer.currentPath).toBeUndefined();
+        expect(explorer.currentDirectory).toBeUndefined();
     }));
 });

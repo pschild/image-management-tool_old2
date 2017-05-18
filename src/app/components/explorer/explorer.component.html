@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-sm">
-        <h2>{{currentPath || 'Mein Computer'}}</h2>
+        <h2>{{currentDirectory || 'Mein Computer'}}</h2>
     </div>
 </div>
 
@@ -9,7 +9,7 @@
 </div>
 <div *ngIf="!(isFileListLoading$ | async)">
     <app-content-list
-            [currentPath]="currentPath"
+            [currentDirectory]="currentDirectory"
             [files]="files"
             (openPreviousDirectoryEvent)="openPreviousDirectory()"
             (folderClickedEvent)="handleFolderClicked($event)">

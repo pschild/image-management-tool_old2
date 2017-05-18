@@ -8,7 +8,7 @@ import {IFile} from "../../../models/file.model";
 })
 export class ContentListComponent implements OnInit {
 
-    @Input() currentPath: string;
+    @Input() currentDirectory: string;
     @Input() files: IFile[];
 
     @Output() openPreviousDirectoryEvent = new EventEmitter();

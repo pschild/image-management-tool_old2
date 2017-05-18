@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import 'rxjs/add/operator/map';
 import {Store} from "@ngrx/store";
 import * as fromRoot from "../../shared/reducers";
-import {getFiles, changeDirectory} from "../../actions/explorer.actions";
+import {getFiles, changeDirectory, resetFiles} from "../../actions/explorer.actions";
 import {Subscription} from "rxjs";
 import {getImages} from "../../actions/image.actions";
 import {IFile} from "../../models/file.model";
@@ -18,7 +18,7 @@ import {Observable} from "rxjs/Observable";
 export class ExplorerComponent implements OnInit, OnDestroy {
 
     files: IFile[] = [];
-    currentPath;
+    currentDirectory: string = '';
     selection$: Observable<any[]>;
     imageCount$: Observable<number>;
     isFileListLoading$: Observable<boolean>;
@@ -29,42 +29,42 @@ export class ExplorerComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.subscriptions.push(this.store.select(state => state.explorerState)
-            .subscribe((explorerState) => {
-                this.files = explorerState.fileList.filter((file: IFile) => { return file.isDirectory || file.isImage });
-                this.currentPath = explorerState.currentDirectory;
-            }
-        ));
+        this.subscriptions.push(
+            this.store.select(fromRoot.getCurrentDirectory).subscribe((currentDirectory) => {
+                this.currentDirectory = currentDirectory;
+                this.store.dispatch(getFiles(encodeURI(this.currentDirectory)));
+            })
+        );
 
-        this.subscriptions.push(this.store.select('explorerState', 'fileList')
-            .subscribe((fileList: IFile[]) => {
+        this.subscriptions.push(
+            this.store.select(fromRoot.getFileList).subscribe((fileList) => {
+                this.files = fileList.filter((file: IFile) => { return file.isDirectory || file.isImage });
+
                 if (fileList.length) {
-                    this.store.dispatch(getImages(this.currentPath, fileList.map((file: IFile) => { return file.fileName })));
+                    this.store.dispatch(getImages(this.currentDirectory, fileList.map((file: IFile) => file.fileName)));
                 }
-            }
-        ));
+            })
+        );
 
         this.imageCount$ = this.store.select(fromRoot.getImageCount);
         this.selection$ = this.store.select(fromRoot.getSelection);
         this.isFileListLoading$ = this.store.select(fromRoot.isFileListLoading);
-
-        this.store.dispatch(changeDirectory(this.currentPath));
-        this.getFilesOfCurrentDirectory();
     }
 
     ngOnDestroy() {
+        this.store.dispatch(resetFiles());
+
         this.subscriptions.forEach((subscription: Subscription) => {
             subscription.unsubscribe();
         });
     }
 
     handleFolderClicked(folderName) {
-        if (this.currentPath && this.currentPath.length > 0) {
-            this.currentPath += '\\';
+        if (this.currentDirectory && this.currentDirectory.length > 0) {
+            this.currentDirectory += '\\';
         }
-        this.currentPath += folderName;
-        this.store.dispatch(changeDirectory(this.currentPath));
-        this.getFilesOfCurrentDirectory();
+        this.currentDirectory += folderName;
+        this.store.dispatch(changeDirectory(this.currentDirectory));
     }
 
     handleBulkEditButtonClicked() {
@@ -82,14 +82,8 @@ export class ExplorerComponent implements OnInit, OnDestroy {
     }
 
     openPreviousDirectory() {
-        let lastIndex = this.currentPath.lastIndexOf('\\');
-        this.currentPath = this.currentPath.substring(0, lastIndex);
-        this.store.dispatch(changeDirectory(this.currentPath));
-        this.getFilesOfCurrentDirectory();
+        let lastIndex = this.currentDirectory.lastIndexOf('\\');
+        this.currentDirectory = this.currentDirectory.substring(0, lastIndex);
+        this.store.dispatch(changeDirectory(this.currentDirectory));
     }
-
-    getFilesOfCurrentDirectory() {
-        this.store.dispatch(getFiles(encodeURI(this.currentPath)));
-    }
-
 }
