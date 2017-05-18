@@ -1,8 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Subscription} from "rxjs";
 import {Store} from "@ngrx/store";
-import {AppState} from "../../shared/reducers";
+import * as fromRoot from "../../shared/reducers";
 import {clearSelection, removeFromSelection} from "../../actions/editor.actions";
+import {Observable} from "rxjs/Observable";
 
 @Component({
     selector: 'app-editor',
@@ -11,27 +11,22 @@ import {clearSelection, removeFromSelection} from "../../actions/editor.actions"
 })
 export class EditorComponent implements OnInit, OnDestroy {
 
-    items: any[];
+    selectedImages$: Observable<{path: string, fileName: string}[]>;
 
-    subscription: Subscription;
-
-    constructor(private store: Store<AppState>) {
+    constructor(private store: Store<fromRoot.AppState>) {
     }
 
     ngOnInit() {
-        this.subscription = this.store.select(state => state.editorState)
-            .subscribe((editorState) => {
-                this.items = editorState.selection.map((pathAndFileName) => {
-                    return {
-                        path: decodeURI(pathAndFileName.path),
-                        fileName: pathAndFileName.fileName
-                    }
-                });
-            });
+        this.selectedImages$ = this.store.select(fromRoot.getSelection)
+            .map(selectedItems => selectedItems.map(item => {
+                return {
+                    path: decodeURI(item.path),
+                    fileName: item.fileName
+                }
+            }));
     }
 
     ngOnDestroy() {
-        this.subscription.unsubscribe();
         this.store.dispatch(clearSelection());
     }
 

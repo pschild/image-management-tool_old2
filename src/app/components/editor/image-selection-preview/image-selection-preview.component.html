@@ -1,0 +1,5 @@
+<div *ngIf="images.length > 1" class="scroll-wrapper">
+    <img *ngFor="let image of images" src="file:///{{image.path}}\{{image.fileName}}" (click)="handleImageClicked(image)">
+</div>
+
+<img *ngIf="images.length === 1" src="file:///{{images[0].path}}\{{images[0].fileName}}" class="img-fluid" style="max-height: 200px;">

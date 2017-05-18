@@ -1,0 +1,18 @@
+.scroll-wrapper {
+    white-space: nowrap;
+    overflow-x: auto;
+    height: 180px;
+    padding: 5px;
+}
+
+.scroll-wrapper > img {
+    display: inline-block;
+    height: 100%;
+    padding: 5px;
+
+    transition: all 0.2s ease-in-out;
+}
+
+.scroll-wrapper > img:hover {
+    transform: scale(0.9);
+}

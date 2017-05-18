@@ -1,7 +1,6 @@
-<div *ngIf="items.length > 1" class="scroll-wrapper">
-    <img *ngFor="let item of items" src="file:///{{item.path}}\{{item.fileName}}" (click)="removeFromSelection(item)">
-</div>
+<app-image-selection-preview
+        [images]="selectedImages$ | async"
+        (removeFromSelectionEvent)="removeFromSelection($event)">
+</app-image-selection-preview>
 
-<img *ngIf="items.length === 1" src="file:///{{items[0].path}}\{{items[0].fileName}}" class="img-fluid" style="max-height: 200px;">
-
-<app-image-form [items]="items"></app-image-form>
+<app-image-form [items]="selectedImages$ | async"></app-image-form>
