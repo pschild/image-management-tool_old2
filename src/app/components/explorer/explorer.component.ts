@@ -60,11 +60,13 @@ export class ExplorerComponent implements OnInit, OnDestroy {
     }
 
     handleFolderClicked(folderName) {
+        let newDirectory = this.currentDirectory;
         if (this.currentDirectory && this.currentDirectory.length > 0) {
-            this.currentDirectory += '\\';
+            newDirectory += '\\';
         }
-        this.currentDirectory += folderName;
-        this.store.dispatch(changeDirectory(this.currentDirectory));
+        newDirectory += folderName;
+
+        this.store.dispatch(changeDirectory(newDirectory));
     }
 
     handleBulkEditButtonClicked() {
@@ -83,7 +85,6 @@ export class ExplorerComponent implements OnInit, OnDestroy {
 
     openPreviousDirectory() {
         let lastIndex = this.currentDirectory.lastIndexOf('\\');
-        this.currentDirectory = this.currentDirectory.substring(0, lastIndex);
-        this.store.dispatch(changeDirectory(this.currentDirectory));
+        this.store.dispatch(changeDirectory(this.currentDirectory.substring(0, lastIndex)));
     }
 }
