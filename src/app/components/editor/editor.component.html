@@ -3,4 +3,4 @@
         (removeFromSelectionEvent)="removeFromSelection($event)">
 </app-image-selection-preview>
 
-<app-image-form [items]="selectedImages$ | async"></app-image-form>
+<app-image-form [selectedImages]="selectedImages$ | async"></app-image-form>

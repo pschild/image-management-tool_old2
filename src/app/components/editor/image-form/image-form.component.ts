@@ -17,7 +17,7 @@ import {CommonValuesHelper} from "./common-values-helper/common-values-helper";
 })
 export class ImageFormComponent implements OnInit, OnDestroy, OnChanges {
 
-    @Input() items: any[];
+    @Input() selectedImages: any[];
 
     formModel: any;
     images: any[] = [];
@@ -47,8 +47,8 @@ export class ImageFormComponent implements OnInit, OnDestroy, OnChanges {
     ngOnInit() {
         this.formModel = this.initialValues;
 
-        if (this.items.length === 1) {
-            let item = this.items[0];
+        if (this.selectedImages.length === 1) {
+            let item = this.selectedImages[0];
             this.subscriptions.push(this.imageService.getImage(encodeURI(item.path), item.fileName)
                 .subscribe((response: ImageGetResponse) => {
                     this.images = [response.image || {}]; // push empty object so that Object.assign can be used when saving
@@ -64,9 +64,9 @@ export class ImageFormComponent implements OnInit, OnDestroy, OnChanges {
                     this.isTimePeriod = this.checkForTimePeriod();
                 }));
 
-        } else if (this.items.length > 1) {
+        } else if (this.selectedImages.length > 1) {
             let observables = [];
-            this.items.forEach((item) => {
+            this.selectedImages.forEach((item) => {
                 observables.push(this.imageService.getImage(encodeURI(item.path), item.fileName));
             });
 
@@ -119,7 +119,7 @@ export class ImageFormComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        let currentItems = changes.items.currentValue;
+        let currentItems = changes.selectedImages.currentValue;
         let remainingImages = [];
         currentItems.forEach((item) => {
             let image = this.images.filter(image => image.path === item.path && image.name === item.fileName)[0];
@@ -149,12 +149,12 @@ export class ImageFormComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     onSubmit() {
-        this.items.forEach((item: any) => {
-            let relatedImage = this.images.filter(image => image.path === item.path && image.name === item.fileName)[0];
+        this.selectedImages.forEach((image: any) => {
+            let relatedImage = this.images.filter(image => image.path === image.path && image.name === image.fileName)[0];
             if (relatedImage) {
                 this.store.dispatch(updateImage(Object.assign(relatedImage, this.formModel, { removedTags: this.removedTags })));
             } else {
-                this.store.dispatch(createImage(Object.assign(item, this.formModel, { name: item.fileName })));
+                this.store.dispatch(createImage(Object.assign(image, this.formModel, { name: image.fileName })));
             }
         });
     }
