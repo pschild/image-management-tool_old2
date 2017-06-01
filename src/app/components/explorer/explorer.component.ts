@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import 'rxjs/add/operator/map';
 import {Store} from "@ngrx/store";
 import * as fromRoot from "../../shared/reducers";
-import {getFiles, changeDirectory, resetFiles} from "../../actions/explorer.actions";
+import {getFiles, changeDirectory} from "../../actions/explorer.actions";
 import {Subscription} from "rxjs";
 import {getImages} from "../../actions/image.actions";
 import {IFile} from "../../models/file.model";
@@ -23,6 +23,9 @@ export class ExplorerComponent implements OnInit, OnDestroy {
     imageCount$: Observable<number>;
     isFileListLoading$: Observable<boolean>;
 
+    // flag for avoiding multiple requests for loading the same images from the server
+    requestNewImages: boolean = false;
+
     subscriptions: Subscription[] = [];
 
     constructor(private store: Store<fromRoot.AppState>, private router: Router) {
@@ -32,6 +35,7 @@ export class ExplorerComponent implements OnInit, OnDestroy {
         this.subscriptions.push(
             this.store.select(fromRoot.getCurrentDirectory).subscribe((currentDirectory) => {
                 this.currentDirectory = currentDirectory;
+                this.requestNewImages = true;
                 this.store.dispatch(getFiles(encodeURI(this.currentDirectory)));
             })
         );
@@ -40,8 +44,9 @@ export class ExplorerComponent implements OnInit, OnDestroy {
             this.store.select(fromRoot.getFileList).subscribe((fileList) => {
                 this.files = fileList.filter((file: IFile) => { return file.isDirectory || file.isImage });
 
-                if (fileList.length) {
+                if (fileList.length && this.requestNewImages) {
                     this.store.dispatch(getImages(this.currentDirectory, fileList.map((file: IFile) => file.fileName)));
+                    this.requestNewImages = false;
                 }
             })
         );
@@ -52,8 +57,6 @@ export class ExplorerComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.store.dispatch(resetFiles());
-
         this.subscriptions.forEach((subscription: Subscription) => {
             subscription.unsubscribe();
         });
